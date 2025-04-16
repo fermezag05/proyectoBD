@@ -86,6 +86,7 @@ El objetivo de nuestro equipo es identificar patrones en la incidencia delictiva
 	Trabajar con datos tan delicados así como lo es la criminalidad en una ciudad conlleva a una gran responsabilidad de no utilizar ninguna información que obtengamos de trabajar los datos para perjudicar a alguien. Además, debemos de reconocer nuestras fuentes de información y no presentarla como propia. 
 
 Cómo cargar los datos
+
 En primer lugar, necesitamos obtener los datos. Estos se encuentran disponibles a través del siguiente enlace del portal de la ciudad de Chicago:
 https://data.cityofchicago.org/Public-Safety/Crimes-2021/dwme-t96c/about_data
 
