@@ -5,7 +5,7 @@ PROYECTO EQUIPO 3
 
 Nuestros datos contienen información sobre los crímenes que se han cometido en la ciudad de Chichado a partir del 2021. Estos datos incluyen información relevante sobre los crímenes, así como: fecha, tipo de crimen, si sucede un arresto, ubicación del crimen y más. Los datos fueron extraídos del Chicago Data Portal.
 	Nuestros datos son recolectados por el sistema CLEAR (Citizen Law Enforcement Analysis and Reporting) del departamento de policía de Chicago. El propósito de la recolección de estos datos es para mantener un registro sobre los crímenes que ocurren en la ciudad de Chicago. Los datos se pueden obtener en el Chicago Data Portal: https://data.cityofchicago.org/Public-Safety/Crimes-2021/dwme-t96c/about_data
-Los datos se actualizan de manera diaria, permitiéndonos utilizar datos sobre crímenes muy recientes (se bajó el csv de la última actualización de la base de datos el día 14 de Febrero del 2025). 
+Los datos se actualizan de manera diaria, permitiéndonos utilizar datos sobre crímenes muy recientes (se bajó el csv de la última actualización de la base de datos el día 16 de Abril del 2025). 
 
 Información sobre la base de datos:
 Número de tuplas: 209,000
@@ -84,3 +84,48 @@ Point
 
 El objetivo de nuestro equipo es identificar patrones en la incidencia delictiva en Chicago mediante el estudio de variables como ubicación, tipo de crimen y evolución temporal. El equipo utilizará el set de datos para analizar tendencias delictivas en distintas áreas comunitarias y distritos policiales, evaluar la relación entre la ubicación y el tipo de delito, examinar la frecuencia de arrestos y detectar cambios temporales en la criminalidad. Con esta información, podremos determinar estrategias potenciales para reducir el crimen en Chicago.
 	Trabajar con datos tan delicados así como lo es la criminalidad en una ciudad conlleva a una gran responsabilidad de no utilizar ninguna información que obtengamos de trabajar los datos para perjudicar a alguien. Además, debemos de reconocer nuestras fuentes de información y no presentarla como propia. 
+
+Cómo cargar los datos
+En primer lugar, necesitamos obtener los datos. Estos se encuentran disponibles a través del siguiente enlace del portal de la ciudad de Chicago:
+https://data.cityofchicago.org/Public-Safety/Crimes-2021/dwme-t96c/about_data
+
+Para descargarlos, haz clic en el botón blanco con texto azul ubicado en la esquina superior derecha que dice "Export". Posteriormente, selecciona el formato CSV (comma separated values).
+
+Una vez descargado el archivo, será necesario crear una nueva base de datos en SQL Shell (psql). Esto se hace con el siguiente comando:
+
+CREATE DATABASE nombre_de_la_base;
+Reemplaza nombre_de_la_base con el nombre que desees darle. Después, conéctate a la base de datos usando:
+
+\c nombre_de_la_base
+A continuación, copia y pega el siguiente script para crear una tabla en SQL:
+
+CREATE TABLE staging (
+    id INTEGER,
+    case_number TEXT,
+    crime_date TEXT,
+    block TEXT,
+    iucr TEXT,
+    primary_type TEXT,
+    description TEXT,
+    location_description TEXT,
+    arrest BOOLEAN,
+    domestic BOOLEAN,
+    beat INTEGER,
+    district INTEGER,
+    ward INTEGER,
+    community_area INTEGER,
+    fbi_code TEXT,
+    x_coordinate INTEGER,
+    y_coordinate INTEGER,
+    year INTEGER,
+    updated_on TEXT,
+    latitude DOUBLE PRECISION,
+    longitude DOUBLE PRECISION,
+    location TEXT
+);
+Por último, carga la información utilizando el siguiente comando en SQL Shell:
+
+\copy staging(id, case_number, crime_date, block, iucr, primary_type, description, location_description, arrest, domestic, beat, district, ward, community_area, fbi_code, x_coordinate, y_coordinate, year, updated_on, latitude, longitude, location) FROM '/.../Crimes_-_2021_20250416.csv' WITH (FORMAT csv, HEADER true, DELIMITER ',');
+Es importante tener en cuenta que el texto dentro de las comillas simples ('...') corresponde a la ruta completa del archivo .csv. Esta ruta varía según la computadora. En Windows, una forma de obtenerla es haciendo clic derecho sobre el archivo y seleccionando “Copiar como ruta”. Además, recuerda que en SQL, los caracteres \ deben ser reemplazados por /.
+
+Una vez realizado este proceso, los datos estarán correctamente cargados en la base de datos. El siguiente paso será abrirla con un entorno de desarrollo para SQL; en este caso, utilizaremos TablePlus.
