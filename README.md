@@ -130,3 +130,47 @@ Por último, carga la información utilizando el siguiente comando en SQL Shell:
 Es importante tener en cuenta que el texto dentro de las comillas simples ('...') corresponde a la ruta completa del archivo .csv. Esta ruta varía según la computadora. En Windows, una forma de obtenerla es haciendo clic derecho sobre el archivo y seleccionando “Copiar como ruta”. Además, recuerda que en SQL, los caracteres \ deben ser reemplazados por /.
 
 Una vez realizado este proceso, los datos estarán correctamente cargados en la base de datos. El siguiente paso será abrirla con un entorno de desarrollo para SQL; en este caso, utilizaremos TablePlus.
+
+
+
+Parte C: 
+
+# Proyecto de Análisis de Crímenes
+
+El objetivo general es analizar patrones de crimen (temporales, geográficos, por tipo) en el área cubierta por los datos. La limpieza debe facilitar este análisis asegurando datos precisos, consistentes y completos en la medida de lo posible.
+
+## Limpieza de Datos
+
+Para asegurar la calidad y fiabilidad de los datos utilizados en este análisis, se llevó a cabo un proceso de limpieza sobre el dataset original (`Crimes_-_2021_20250416.csv`) cargado en la tabla `staging` de PostgreSQL. El objetivo de la limpieza fue [Reitera tu objetivo, ej: preparar los datos para análisis espacio-temporal de patrones delictivos].
+
+Las siguientes actividades de limpieza fueron realizadas mediante el script `scripts/clean_data.sql`:
+
+1.  **Corrección de Tipos de Datos:**
+    * Se ajustaron los tipos de datos de columnas clave como `"Date"`, `"Updated On"` (a `TIMESTAMP`), `"Arrest"`, `"Domestic"` (a `BOOLEAN`), `"Latitude"`, `"Longitude"` (a `NUMERIC`), etc., para permitir operaciones válidas.
+    * *Justificación:* Necesario para cálculos temporales, lógicos, numéricos y geoespaciales precisos.
+
+2.  **Estandarización de Datos Categóricos:**
+    * Se eliminaron espacios iniciales/finales y se convirtió a mayúsculas el contenido de columnas como `"Primary Type"`, `"Location Description"`, `"Description"`.
+    * *Justificación:* Unifica categorías que difieren solo por formato, permitiendo agrupaciones correctas.
+
+3.  **Manejo de Valores Nulos:**
+    * Los `NULL` en `"Location Description"` se reemplazaron por `'UNKNOWN'`.
+    * [Describe cómo manejaste otros NULLs importantes, ej: Se eliminaron X filas (Y%) con `"Latitude"` o `"Longitude"` nulos].
+    * *Justificación:* Se optó por [preservar filas / eliminar filas / imputar] para [balancear completitud vs precisión / asegurar validez de análisis clave como el espacial].
+
+4.  **Resolución de `"Case Number"` Duplicados:**
+    * Se identificaron múltiples registros con el mismo `"Case Number"`. Tras investigar, se observó que [explica brevemente qué representaban los duplicados, ej: parecían ser actualizaciones del mismo caso].
+    * Se implementó una estrategia para conservar únicamente el registro más reciente para cada `"Case Number"`, basado en la columna `"Updated On"`. Ver el script para la query exacta (`DELETE` con `DISTINCT ON`).
+    * *Justificación:* Asegura que cada incidente esté representado una sola vez (o por su estado más actual), evitando sobreestimaciones y permitiendo análisis a nivel de incidente.
+
+5.  **Validación y Corrección de Fechas:**
+    * Se corrigieron los registros donde `"Updated On"` era anterior a `"Date"`, igualando `"Updated On"` a `"Date"`.
+    * *Justificación:* Corrige una inconsistencia lógica fundamental para el análisis temporal.
+
+6.  **Validación de Coordenadas Geográficas:**
+    * Se identificaron y se establecieron como `NULL` las coordenadas (`"Latitude"`, `"Longitude"`) que caían fuera del rango geográfico esperado para [Tu Área].
+    * *Justificación:* Elimina datos de ubicación claramente erróneos que invalidarían análisis espaciales.
+
+7.  **[Incluir cualquier otra limpieza realizada, como eliminación de columnas]**
+
+El script `scripts/clean_data.sql` contiene las operaciones SQL exactas utilizadas. Se recomienda ejecutarlo sobre los datos en bruto cargados en la tabla `staging`.
