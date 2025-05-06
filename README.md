@@ -134,4 +134,69 @@ Una vez realizado este proceso, los datos estarán correctamente cargados en la 
 
 
 Parte C: 
+Limpieza de Datos
 
+Para garantizar la calidad del dataset y asegurar su adecuación al objetivo del proyecto, se llevaron a cabo las siguientes tareas de limpieza y validación sobre la tabla staging:
+
+1. Eliminación de duplicados por case_number
+
+Se identificaron múltiples registros con el mismo case_number, lo cual indica duplicación lógica de eventos. Antes de la eliminación, se revisaron las tuplas que compartían el mismo case number para afirmar que compartían datos.
+Se utilizó una CTE con ROW_NUMBER() para conservar una sola fila por case_number, seleccionando la de menor id.
+
+Esta operación no fue destructiva: se creó un respaldo (staging_backup) y una tabla limpia (staging_cleaned).
+
+Justificación:
+case_number debe ser un identificador único de caso; su duplicación puede distorsionar análisis agregados y espaciales.
+
+⸻
+
+2. Verificación de inconsistencias en primary_type
+
+Se revisó si existían valores con capitalización inconsistente o espacios al inicio o final de la cadena.
+Resultado: no se encontraron inconsistencias. Todos los valores en primary_type están correctamente formateados.
+
+Justificación:
+Este paso garantiza que categorías como “THEFT”, “theft” o “ THEFT” no se traten como valores distintos, lo cual fragmentaría los análisis por tipo de crimen.
+
+⸻
+
+3. Revisión de columnas geográficas (x/y_coordinate vs latitude/longitude)
+
+Se validó que una misma combinación de x_coordinate y y_coordinate no tuviera múltiples pares latitude/longitude.
+Resultado: no se encontraron inconsistencias en las coordenadas geográficas.
+
+Justificación:
+Esta verificación garantiza la coherencia espacial de los datos para su uso en mapas o análisis de localización.
+
+⸻
+
+4. Conteo de valores nulos
+
+Se identificó la cantidad de valores nulos por columna. Los hallazgos más relevantes fueron:
+	•	arrest: 1,258 valores nulos
+	•	latitude, longitude y location: 6,604 valores nulos cada uno
+
+Justificación:
+Esta revisión permite evaluar la completitud de los datos antes de entrenar modelos o construir visualizaciones.
+No se imputaron valores por ahora, pero se considera relevante en futuras etapas del proyecto.
+
+⸻
+
+5. Análisis de frecuencia en variables categóricas
+
+Se generaron conteos por las siguientes variables categóricas:
+	•	primary_type
+	•	location_description
+	•	arrest
+	•	domestic
+
+Justificación:
+Este paso facilitó la exploración inicial del dataset y la detección de posibles sesgos o categorías predominantes.
+
+⸻
+
+Conclusión
+
+La limpieza del dataset fue cuidadosa y no destructiva.
+Se documentaron todos los pasos y se dejaron versiones limpias y respaldadas para futuros análisis.
+El dataset quedó listo para ser utilizado de forma confiable en las siguientes etapas del proyecto.
