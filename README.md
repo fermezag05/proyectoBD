@@ -100,30 +100,30 @@ Reemplaza nombre_de_la_base con el nombre que desees darle. Después, conéctate
 \c nombre_de_la_base
 A continuación, copia y pega el siguiente script para crear una tabla en SQL:
 
-CREATE TABLE staging (
-    id INTEGER,
-    case_number TEXT,
-    crime_date TEXT,
-    block TEXT,
-    iucr TEXT,
-    primary_type TEXT,
-    description TEXT,
-    location_description TEXT,
-    arrest BOOLEAN,
-    domestic BOOLEAN,
-    beat INTEGER,
-    district INTEGER,
-    ward INTEGER,
-    community_area INTEGER,
-    fbi_code TEXT,
-    x_coordinate INTEGER,
-    y_coordinate INTEGER,
-    year INTEGER,
-    updated_on TEXT,
-    latitude DOUBLE PRECISION,
-    longitude DOUBLE PRECISION,
-    location TEXT
-);
+CREATE TABLE staging(id BIGSERIAL PRIMARY KEY,
+ case_number VARCHAR(200) NOT NULL,
+ crime_date VARCHAR(200),
+ block VARCHAR(200),
+ iucr VARCHAR(200),
+ primary_type VARCHAR(200),
+ description VARCHAR(200) NOT NULL,
+ location_description VARCHAR(200), 
+ arrest BOOLEAN NOT NULL, 
+ domestic BOOLEAN NOT NULL, 
+ beat BIGINT, 
+ district BIGINT,
+ ward BIGINT,
+ community_area BIGINT,
+ fbi_code VARCHAR(200),
+ x_coordinate BIGINT,
+ y_coordinate BIGINT,
+ year BIGINT,
+ updated_on VARCHAR(200),
+ latitude DOUBLE PRECISION,
+ longitude DOUBLE PRECISION,
+ location VARCHAR(200));
+
+
 Por último, carga la información utilizando el siguiente comando en SQL Shell:
 
 \copy staging(id, case_number, crime_date, block, iucr, primary_type, description, location_description, arrest, domestic, beat, district, ward, community_area, fbi_code, x_coordinate, y_coordinate, year, updated_on, latitude, longitude, location) FROM '/.../Crimes_-_2021_20250416.csv' WITH (FORMAT csv, HEADER true, DELIMITER ',');
