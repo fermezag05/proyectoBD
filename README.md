@@ -102,7 +102,7 @@ A continuación, copia y pega el siguiente script para crear una tabla en SQL:
 
 CREATE TABLE staging(id BIGSERIAL PRIMARY KEY,
  case_number VARCHAR(200) NOT NULL,
- crime_date VARCHAR(200),
+ crime_date TEXT,
  block VARCHAR(200),
  iucr VARCHAR(200),
  primary_type VARCHAR(200),
