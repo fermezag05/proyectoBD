@@ -16,70 +16,67 @@ Descripción
 Tipo
 ID
 Es el identificador único del reporte.
-Numerical
+Bigserial
 Case Number
 El número de división de registros del Departamento de Policía de Chicago, que es exclusivo del incidente.
-
-
-Text
+VARCHAR
 Date
 Fecha en que ocurrió el incidente
-Time Stamp
+TEXT
 Block
 La dirección parcialmente redactada donde ocurrió el incidente, colocándola en el mismo bloque que la dirección real.
-Text
+VARCHAR
 IUCR
 El código uniforme de denuncia de delitos de Illinois. Esto está directamente relacionado con el tipo principal y la descripción.
-Text
+VARCHAR
 Primary Type
 La descripción principal del código IUCR.
-Text
+VARCHAR
 Description
 La descripción secundaria del código IUCR, una subcategoría de la descripción primaria.
-Text
+VARCHAR
 Location Description
 Descripción del lugar donde ocurrió el incidente.
-Text
+VARCHAR
 Arrest
 Indica si se realizó un arresto.
-Boolean
+BOOLEAN
 Domestic
 Indica si el incidente estuvo relacionado con el hogar según lo define la Ley de Violencia Doméstica de Illinois.
-Boolean
+BOOLEAN
 Beat (smallest police geographic area)
 Indica donde ocurrió el incidente. Un beat es el área geográfica policial más pequeña.
-Text
+BIGINT
 District
 Indica el distrito policial donde ocurrió el incidente.
-Text
+BIGINT
 Community Area
 Indica el área comunitaria donde ocurrió el incidente. Chicago tiene 77 áreas comunitarias.
-Text
+BIGINT
 FBI Code
 Indica la clasificación de delitos como se describe en el Sistema Nacional de Informes Basados ​​en Incidentes del FBI.
-Text
+VARCHAR
 X Coordinate
 La coordenada x del lugar donde ocurrió el incidente.
-Number
+BIGINT
 Y Coordinate
 La coordenada y del lugar donde ocurrió el incidente.
-Number
+BIGINT
 Year
 Año en el que ocurrió el incidente.
-Number
+BIGINT
 Updated On
 Día en el que se actualizó el reporte.
-Time Stamp
+VARCHAR
 Latitude
 La latitud del lugar donde ocurrió el incidente.
-Number
+DOUBLE PRECISION
 Longitude
 La longitud del lugar donde ocurrió el incidente.
-Number
+DOUBLE PRECISION
 Location
 La ubicación donde ocurrió el incidente en un formato que permita la creación de mapas y otras operaciones geográficas en este portal de datos.
-Point
-
+VARCHAR
 
 
 El objetivo de nuestro equipo es identificar patrones en la incidencia delictiva en Chicago mediante el estudio de variables como ubicación, tipo de crimen y evolución temporal. El equipo utilizará el set de datos para analizar tendencias delictivas en distintas áreas comunitarias y distritos policiales, evaluar la relación entre la ubicación y el tipo de delito, examinar la frecuencia de arrestos y detectar cambios temporales en la criminalidad. Con esta información, podremos determinar estrategias potenciales para reducir el crimen en Chicago.
