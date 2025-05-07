@@ -11,72 +11,29 @@ Información sobre la base de datos:
 Número de tuplas: 209,000
 Número de atributos que se usarán: 22
 
-Atributo
-Descripción
-Tipo
-ID
-Es el identificador único del reporte.
-Bigserial
-  Case Number
-El número de división de registros del Departamento de Policía de Chicago, que es exclusivo del incidente.
-VARCHAR
-  Date
-Fecha en que ocurrió el incidente
-TEXT
-  Block
-La dirección parcialmente redactada donde ocurrió el incidente, colocándola en el mismo bloque que la dirección real.
-VARCHAR
-  IUCR
-El código uniforme de denuncia de delitos de Illinois. Esto está directamente relacionado con el tipo principal y la descripción.
-VARCHAR
-  Primary Type
-La descripción principal del código IUCR.
-VARCHAR
-  Description
-La descripción secundaria del código IUCR, una subcategoría de la descripción primaria.
-VARCHAR
-  Location Description
-Descripción del lugar donde ocurrió el incidente.
-VARCHAR
-  Arrest
-Indica si se realizó un arresto.
-BOOLEAN
-  Domestic
-Indica si el incidente estuvo relacionado con el hogar según lo define la Ley de Violencia Doméstica de Illinois.
-BOOLEAN
-  Beat (smallest police geographic area)
-Indica donde ocurrió el incidente. Un beat es el área geográfica policial más pequeña.
-BIGINT
-  District
-Indica el distrito policial donde ocurrió el incidente.
-BIGINT
-  Community Area
-Indica el área comunitaria donde ocurrió el incidente. Chicago tiene 77 áreas comunitarias.
-BIGINT
-  FBI Code
-Indica la clasificación de delitos como se describe en el Sistema Nacional de Informes Basados ​​en Incidentes del FBI.
-VARCHAR
-  X Coordinate
-La coordenada x del lugar donde ocurrió el incidente.
-BIGINT
-  Y Coordinate
-La coordenada y del lugar donde ocurrió el incidente.
-BIGINT
-  Year
-Año en el que ocurrió el incidente.
-BIGINT
-  Updated On
-Día en el que se actualizó el reporte.
-VARCHAR
-  Latitude
-La latitud del lugar donde ocurrió el incidente.
-DOUBLE PRECISION
-  Longitude
-La longitud del lugar donde ocurrió el incidente.
-DOUBLE PRECISION
-  Location
-La ubicación donde ocurrió el incidente en un formato que permita la creación de mapas y otras operaciones geográficas en este portal de datos.
-VARCHAR
+| Nombre                | Descripción                                                                                                                                     | Tipo de Dato       |
+|-----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|--------------------|
+| ID                    | Es el identificador único del reporte.                                                                                                          | Bigserial          |
+| Case Number           | El número de división de registros del Departamento de Policía de Chicago, que es exclusivo del incidente.                                     | VARCHAR            |
+| Date                  | Fecha en que ocurrió el incidente                                                                                                               | TEXT               |
+| Block                 | La dirección parcialmente redactada donde ocurrió el incidente, colocándola en el mismo bloque que la dirección real.                          | VARCHAR            |
+| IUCR                  | El código uniforme de denuncia de delitos de Illinois. Esto está directamente relacionado con el tipo principal y la descripción.              | VARCHAR            |
+| Primary Type          | La descripción principal del código IUCR.                                                                                                       | VARCHAR            |
+| Description           | La descripción secundaria del código IUCR, una subcategoría de la descripción primaria.                                                         | VARCHAR            |
+| Location Description  | Descripción del lugar donde ocurrió el incidente.                                                                                               | VARCHAR            |
+| Arrest                | Indica si se realizó un arresto.                                                                                                                | BOOLEAN            |
+| Domestic              | Indica si el incidente estuvo relacionado con el hogar según lo define la Ley de Violencia Doméstica de Illinois.                              | BOOLEAN            |
+| Beat                  | Indica donde ocurrió el incidente. Un beat es el área geográfica policial más pequeña.                                                          | BIGINT             |
+| District              | Indica el distrito policial donde ocurrió el incidente.                                                                                         | BIGINT             |
+| Community Area        | Indica el área comunitaria donde ocurrió el incidente. Chicago tiene 77 áreas comunitarias.                                                     | BIGINT             |
+| FBI Code              | Indica la clasificación de delitos como se describe en el Sistema Nacional de Informes Basados en Incidentes del FBI.                          | VARCHAR            |
+| X Coordinate          | La coordenada x del lugar donde ocurrió el incidente.                                                                                           | BIGINT             |
+| Y Coordinate          | La coordenada y del lugar donde ocurrió el incidente.                                                                                           | BIGINT             |
+| Year                  | Año en el que ocurrió el incidente.                                                                                                             | BIGINT             |
+| Updated On            | Día en el que se actualizó el reporte.                                                                                                          | VARCHAR            |
+| Latitude              | La latitud del lugar donde ocurrió el incidente.                                                                                                | DOUBLE PRECISION   |
+| Longitude             | La longitud del lugar donde ocurrió el incidente.                                                                                               | DOUBLE PRECISION   |
+| Location              | La ubicación donde ocurrió el incidente en un formato que permita la creación de mapas y otras operaciones geográficas en este portal de datos. | VARCHAR            |
 
 
 El objetivo de nuestro equipo es identificar patrones en la incidencia delictiva en Chicago mediante el estudio de variables como ubicación, tipo de crimen y evolución temporal. El equipo utilizará el set de datos para analizar tendencias delictivas en distintas áreas comunitarias y distritos policiales, evaluar la relación entre la ubicación y el tipo de delito, examinar la frecuencia de arrestos y detectar cambios temporales en la criminalidad. Con esta información, podremos determinar estrategias potenciales para reducir el crimen en Chicago.
