@@ -17,64 +17,64 @@ Tipo
 ID
 Es el identificador único del reporte.
 Bigserial
-Case Number
+  Case Number
 El número de división de registros del Departamento de Policía de Chicago, que es exclusivo del incidente.
 VARCHAR
-Date
+  Date
 Fecha en que ocurrió el incidente
 TEXT
-Block
+  Block
 La dirección parcialmente redactada donde ocurrió el incidente, colocándola en el mismo bloque que la dirección real.
 VARCHAR
-IUCR
+  IUCR
 El código uniforme de denuncia de delitos de Illinois. Esto está directamente relacionado con el tipo principal y la descripción.
 VARCHAR
-Primary Type
+  Primary Type
 La descripción principal del código IUCR.
 VARCHAR
-Description
+  Description
 La descripción secundaria del código IUCR, una subcategoría de la descripción primaria.
 VARCHAR
-Location Description
+  Location Description
 Descripción del lugar donde ocurrió el incidente.
 VARCHAR
-Arrest
+  Arrest
 Indica si se realizó un arresto.
 BOOLEAN
-Domestic
+  Domestic
 Indica si el incidente estuvo relacionado con el hogar según lo define la Ley de Violencia Doméstica de Illinois.
 BOOLEAN
-Beat (smallest police geographic area)
+  Beat (smallest police geographic area)
 Indica donde ocurrió el incidente. Un beat es el área geográfica policial más pequeña.
 BIGINT
-District
+  District
 Indica el distrito policial donde ocurrió el incidente.
 BIGINT
-Community Area
+  Community Area
 Indica el área comunitaria donde ocurrió el incidente. Chicago tiene 77 áreas comunitarias.
 BIGINT
-FBI Code
+  FBI Code
 Indica la clasificación de delitos como se describe en el Sistema Nacional de Informes Basados ​​en Incidentes del FBI.
 VARCHAR
-X Coordinate
+  X Coordinate
 La coordenada x del lugar donde ocurrió el incidente.
 BIGINT
-Y Coordinate
+  Y Coordinate
 La coordenada y del lugar donde ocurrió el incidente.
 BIGINT
-Year
+  Year
 Año en el que ocurrió el incidente.
 BIGINT
-Updated On
+  Updated On
 Día en el que se actualizó el reporte.
 VARCHAR
-Latitude
+  Latitude
 La latitud del lugar donde ocurrió el incidente.
 DOUBLE PRECISION
-Longitude
+  Longitude
 La longitud del lugar donde ocurrió el incidente.
 DOUBLE PRECISION
-Location
+  Location
 La ubicación donde ocurrió el incidente en un formato que permita la creación de mapas y otras operaciones geográficas en este portal de datos.
 VARCHAR
 
