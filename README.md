@@ -53,7 +53,7 @@ Reemplaza nombre_de_la_base con el nombre que desees darle. Después, conéctate
 
 \c nombre_de_la_base
 A continuación, copia y pega el siguiente script para crear una tabla en SQL:
-
+```sql
 CREATE TABLE staging(id BIGSERIAL PRIMARY KEY,
  case_number VARCHAR(200) NOT NULL,
  crime_date TEXT,
@@ -76,11 +76,12 @@ CREATE TABLE staging(id BIGSERIAL PRIMARY KEY,
  latitude DOUBLE PRECISION,
  longitude DOUBLE PRECISION,
  location VARCHAR(200));
-
+```
 
 Por último, carga la información utilizando el siguiente comando en SQL Shell:
 
 \copy staging(id, case_number, crime_date, block, iucr, primary_type, description, location_description, arrest, domestic, beat, district, ward, community_area, fbi_code, x_coordinate, y_coordinate, year, updated_on, latitude, longitude, location) FROM '/.../Crimes_-_2021_20250416.csv' WITH (FORMAT csv, HEADER true, DELIMITER ',');
+
 Es importante tener en cuenta que el texto dentro de las comillas simples ('...') corresponde a la ruta completa del archivo .csv. Esta ruta varía según la computadora. En Windows, una forma de obtenerla es haciendo clic derecho sobre el archivo y seleccionando “Copiar como ruta”. Además, recuerda que en SQL, los caracteres \ deben ser reemplazados por /.
 
 Una vez realizado este proceso, los datos estarán correctamente cargados en la base de datos. El siguiente paso será abrirla con un entorno de desarrollo para SQL; en este caso, utilizaremos TablePlus.
