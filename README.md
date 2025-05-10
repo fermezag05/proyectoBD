@@ -149,6 +149,7 @@ Justificación:
 Este paso facilitó la exploración inicial del dataset y la detección de posibles sesgos o categorías predominantes.
 
 ⸻
+
 6. Corrección de nconsistencias en la codificación FBI
 
 Durante la validación de claves lógicas, se detectó que la combinación ('DECEPTIVE PRACTICE', 'UNAUTHORIZED VIDEOTAPING') estaba asociada a más de un valor de fbi_code ('11' y '17'). Esta situación representa una violación a la consistencia semántica del dataset, ya que cada combinación de tipo y descripción de delito debería corresponder a un único código FBI.
