@@ -1,11 +1,11 @@
 BEGIN;
 
-CREATE TABLE crime_types (
-	id BIGSERIAL PRIMARY KEY,
-    iucr VARCHAR(200) NOT NULL,
+CREATE TABLE crime_codes (
+    iucr VARCHAR(10) PRIMARY KEY,
     primary_type VARCHAR(200) NOT NULL,
-    description TEXT NULL,
-    fbi_code VARCHAR(200) NOT NULL
+    description VARCHAR(200) NOT NULL,
+    fbi_code VARCHAR(10) NOT NULL,
+    --UNIQUE(primary_type, description, fbi_code)
 );
 
 CREATE TABLE locations (
@@ -24,13 +24,16 @@ CREATE TABLE crimes(
     id BIGSERIAL PRIMARY KEY,
     case_number VARCHAR(200) NOT NULL,
     crime_date TIMESTAMP NOT NULL,
-    locations_id BIGINT NOT NULL REFERENCES locations(id) ON DELETE CASCADE,
-    crimes_types_id BIGINT NOT NULL REFERENCES crime_types(id) ON DELETE CASCADE,
+    iucr VARCHAR(10) REFERENCES crime_codes(iucr),
     arrest BOOLEAN NOT NULL,
     domestic BOOLEAN NOT NULL,
-    beat BIGINT NOT NULL,
-    "year" BIGINT NOT NULL,
-    updated_on VARCHAR(200)
+    beat BIGINT,
+    district BIGINT,
+    ward BIGINT,
+    community_area BIGINT,
+    location_id INT REFERENCES locations(location_id),
+    year BIGINT,
+    updated_on TIMESTAMP
 );
 
 ROLLBACK;
