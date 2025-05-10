@@ -149,7 +149,6 @@ Justificación:
 Este paso facilitó la exploración inicial del dataset y la detección de posibles sesgos o categorías predominantes.
 
 ⸻
-
 Conclusión
 
 La limpieza del dataset fue cuidadosa y no destructiva.
