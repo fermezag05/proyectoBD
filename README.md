@@ -129,7 +129,7 @@ Esta verificación garantiza la coherencia espacial de los datos para su uso en 
 
 Se identificó la cantidad de valores nulos por columna. Los hallazgos más relevantes fueron:
 	•	location_description: 1,258 valores nulos
-	•	latitude, longitude y location: 6,604 valores nulos cada uno
+	•	latitude, longitude, x_coordinate, y_coordinate y location: 6,604 valores nulos cada uno
 
 Justificación:
 Esta revisión permite evaluar la completitud de los datos antes de entrenar modelos o construir visualizaciones.
@@ -150,7 +150,7 @@ Este paso facilitó la exploración inicial del dataset y la detección de posib
 
 ⸻
 
-6. Corrección de nconsistencias en la codificación FBI
+6. Corrección de inconsistencias en la codificación FBI
 
 Durante la validación de claves lógicas, se detectó que la combinación ('DECEPTIVE PRACTICE', 'UNAUTHORIZED VIDEOTAPING') estaba asociada a más de un valor de fbi_code ('11' y '17'). Esta situación representa una violación a la consistencia semántica del dataset, ya que cada combinación de tipo y descripción de delito debería corresponder a un único código FBI.
 
