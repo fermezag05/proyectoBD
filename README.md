@@ -128,7 +128,7 @@ Esta verificación garantiza la coherencia espacial de los datos para su uso en 
 4. Conteo de valores nulos
 
 Se identificó la cantidad de valores nulos por columna. Los hallazgos más relevantes fueron:
-	•	arrest: 1,258 valores nulos
+	•	location_description: 1,258 valores nulos
 	•	latitude, longitude y location: 6,604 valores nulos cada uno
 
 Justificación:
