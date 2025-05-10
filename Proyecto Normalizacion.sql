@@ -4,7 +4,8 @@ CREATE TABLE crime_types (
 	id BIGSERIAL PRIMARY KEY,
     iucr VARCHAR(200) NOT NULL,
     primary_type VARCHAR(200) NOT NULL,
-    description TEXT NULL
+    description TEXT NULL,
+    fbi_code VARCHAR(200) NOT NULL
 );
 
 CREATE TABLE locations (
@@ -28,7 +29,6 @@ CREATE TABLE crimes(
     arrest BOOLEAN NOT NULL,
     domestic BOOLEAN NOT NULL,
     beat BIGINT NOT NULL,
-    fbi_code VARCHAR(200) NOT NULL,
     "year" BIGINT NOT NULL,
     updated_on VARCHAR(200)
 );
