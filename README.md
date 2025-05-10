@@ -86,12 +86,15 @@ Es importante tener en cuenta que el texto dentro de las comillas simples ('...'
 
 Una vez realizado este proceso, los datos estarán correctamente cargados en la base de datos. El siguiente paso será abrirla con un entorno de desarrollo para SQL; en este caso, utilizaremos TablePlus.
 
-Por ultimo, realizamos una modificacion a la tabla para convertir crime_date a un timestamp. Dicha modificacion se hace ejecutando el siguiente codigo.
+Por último, realizamos una modificación a la tabla para convertir crime_date a un timestamp. Dicha modificación se hace ejecutando el siguiente código:
 
 ALTER TABLE staging ADD COLUMN crime_timestamp TIMESTAMP;
+
 UPDATE staging
 SET crime_timestamp = TO_TIMESTAMP(crime_date, 'MM/DD/YYYY HH12:MI:SS AM');
+
 ALTER TABLE staging DROP COLUMN crime_date;
+
 ALTER TABLE staging RENAME COLUMN crime_timestamp TO crime_date;
 
 Parte C: 
