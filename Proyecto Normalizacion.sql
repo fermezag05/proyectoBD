@@ -8,12 +8,15 @@ CREATE TABLE crime_types (
 );
 
 CREATE TABLE locations (
-	id BIGSERIAL PRIMARY KEY
+    location_id SERIAL PRIMARY KEY,
     block VARCHAR(200) NOT NULL,
-    location_description TEXT NOT NULL,
-    district BIGINT NOT NULL,
-    ward BIGINT NOT NULL,
-    community_area BIGINT NOT NULL
+    location_description VARCHAR(200) NOT NULL,
+    x_coordinate BIGINT,
+    y_coordinate BIGINT,
+    latitude DOUBLE PRECISION,
+    longitude DOUBLE PRECISION,
+    location VARCHAR(200),
+    UNIQUE(block, location_description, x_coordinate, y_coordinate, latitude, longitude)
 );
 
 CREATE TABLE crimes(
@@ -26,13 +29,8 @@ CREATE TABLE crimes(
     domestic BOOLEAN NOT NULL,
     beat BIGINT NOT NULL,
     fbi_code VARCHAR(200) NOT NULL,
-    x_coordinate BIGINT NOT NULL,
-    y_coordinate BIGINT NOT NULL,
     "year" BIGINT NOT NULL,
-    updated_on VARCHAR(200),
-    latitude DOUBLE PRECISION,
-    longitude DOUBLE PRECISION,
-    location TEXT NULL
+    updated_on VARCHAR(200)
 );
 
 ROLLBACK;
