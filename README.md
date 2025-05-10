@@ -149,6 +149,17 @@ Justificación:
 Este paso facilitó la exploración inicial del dataset y la detección de posibles sesgos o categorías predominantes.
 
 ⸻
+6. Corrección de nconsistencias en la codificación FBI
+
+Durante la validación de claves lógicas, se detectó que la combinación ('DECEPTIVE PRACTICE', 'UNAUTHORIZED VIDEOTAPING') estaba asociada a más de un valor de fbi_code ('11' y '17'). Esta situación representa una violación a la consistencia semántica del dataset, ya que cada combinación de tipo y descripción de delito debería corresponder a un único código FBI.
+
+Mediante un análisis de frecuencia (GROUP BY y COUNT(*)), se identificó que 'fbi_code = 11' era el valor dominante con 42 registros, mientras que 'fbi_code = 17' solo aparecía una vez.
+
+Esta decisión busca preservar la integridad lógica del conjunto de datos y facilitar su normalización posterior mediante la construcción de la tabla crime_codes.
+
+Justificación: asegurar que fbi_code esté funcionalmente determinado por (primary_type, description) permite mantener un modelo de datos limpio, coherente y normalizado.
+
+⸻
 Conclusión
 
 La limpieza del dataset fue cuidadosa y no destructiva.
