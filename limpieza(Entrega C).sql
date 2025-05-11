@@ -108,3 +108,8 @@ SELECT DISTINCT primary_type
 FROM staging
 ORDER BY primary_type;
 -- (Revisión visual requerida para identificar ' THEFT' vs 'THEFT' o 'Theft' vs 'THEFT')
+
+-- Query para ver específicamente si hay espacios al inicio/final en 'primary_type'
+SELECT COUNT(*)
+FROM staging
+WHERE primary_type <> TRIM(primary_type);
