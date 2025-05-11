@@ -205,3 +205,27 @@ Conclusión
 La limpieza del dataset fue cuidadosa y no destructiva.
 Se documentaron todos los pasos y se dejaron versiones limpias y respaldadas para futuros análisis.
 El dataset quedó listo para ser utilizado de forma confiable en las siguientes etapas del proyecto.
+
+## Diagrama UML (Relacional) - Tablas Normalizadas
+
++---------------+         +---------------+         +-----------------+
+|  crime_codes  |         |   locations   |         |     crimes      |
++---------------+         +---------------+         +-----------------+
+| iucr (PK)     |         | location_id (PK) |<-----| location_id (FK)|
+| primary_type  |         | block            |      | id (PK)         |
+| description   |         | location_desc    |      | case_number     |
+| fbi_code      |         | x_coordinate     |      | crime_date      |
++---------------+         | y_coordinate     |      | iucr (FK)       |
+                          | latitude         |      | arrest          |
+                          | longitude        |      | domestic        |
+                          | location         |      | beat            |
+                          +------------------+      | district        |
+                                                    | ward            |
+                                                    | community_area  |
+                                                    | year            |
+                                                    | updated_on      |
+                                                    +-----------------+
+
+Relaciones:
+- crimes.iucr → crime_codes.iucr
+- crimes.location_id → locations.location_id
