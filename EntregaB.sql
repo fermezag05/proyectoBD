@@ -127,6 +127,8 @@ FROM staging;
 --¿Existen inconsistencias en el set de datos?
 
  --buscamos inconsistencias
+-- Verifica si existen combinaciones de primary_type y description asociadas a más de un fbi_code
+-- Esto indica una inconsistencia semántica: un mismo tipo de crimen debería tener un único código FBI
 SELECT 
     primary_type, 
     description, 
@@ -135,6 +137,8 @@ FROM staging
 GROUP BY primary_type, description
 HAVING COUNT(DISTINCT fbi_code) > 1;
 
+-- Revisión específica de una de las inconsistencias encontradas anteriormente
+-- En este caso, el crimen 'UNAUTHORIZED VIDEOTAPING' bajo 'DECEPTIVE PRACTICE' tiene más de un fbi_code
 SELECT 
     primary_type, 
     description, 
@@ -145,12 +149,22 @@ WHERE primary_type = 'DECEPTIVE PRACTICE'
   AND description = 'UNAUTHORIZED VIDEOTAPING'
 GROUP BY primary_type, description, fbi_code;
 
+-- Verifica si existen case_number duplicados (esperado: cada uno debe ser único)
+-- Si COUNT(*) > 1, entonces hay registros duplicados lógicamente
 SELECT case_number, COUNT(*) AS count_per_case
 FROM staging
 GROUP BY case_number
 HAVING COUNT(*) > 1
 ORDER BY count_per_case DESC;
 
+-- Revisión puntual de un case_number duplicado (por ejemplo, JE266473)
+-- Se pueden observar los valores que comparten para validar que son duplicados reales
 SELECT *
 FROM staging
 WHERE case_number = 'JE266473';
+
+-- CONCLUSIÓN:
+-- Se identificaron inconsistencias en el dataset:
+-- 1. Existen duplicados lógicos de casos, es decir, múltiples filas con el mismo case_number (ej. JE266473).
+-- 2. Algunas combinaciones de (primary_type, description) están asociadas a más de un fbi_code, lo cual rompe la consistencia semántica esperada.
+-- Estas inconsistencias deben corregirse para asegurar integridad y coherencia antes de cualquier análisis o normalización del modelo de datos.
