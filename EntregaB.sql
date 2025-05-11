@@ -42,6 +42,15 @@ ALTER TABLE staging RENAME COLUMN crime_timestamp TO crime_date;
 
 -- Mínimos y máximos de fechas
 
+SELECT crime_date as maxima
+FROM staging
+WHERE crime_date=(SELECT MAX(crime_date)
+FROM staging);
+
+SELECT crime_date as minima
+FROM staging
+WHERE crime_date=(SELECT MIN(crime_date)
+FROM staging);
 -- Mínimos, máximos y promedios de valores numéricos
 SELECT
     MIN(latitude) AS min_latitude,
