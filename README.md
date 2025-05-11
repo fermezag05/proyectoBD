@@ -193,23 +193,17 @@ El nuevo modelo cumple con la 4FN, ya que:
 •No existen combinaciones independientes de atributos no clave que generen redundancia cruzada en una misma tabla.
 •Cada tabla representa una entidad única y sus dependencias funcionales directas, sin ambigüedad.
 
-\subsection*{Dependencias Funcionales}
+## Dependencias Funcionales
 
-\textbf{Tabla: crime\_codes}
-\begin{align*}
-\texttt{iucr} &\rightarrow \texttt{primary\_type},\ \texttt{description},\ \texttt{fbi\_code} \\
-(\texttt{primary\_type},\ \texttt{description}) &\rightarrow \texttt{fbi\_code} \quad \text{(si se cumple siempre)}
-\end{align*}
+**Tabla: `crime_codes`**
+- iucr → primary_type, description, fbi_code  
+- (primary_type, description) → fbi_code *(si se cumple siempre)*
 
-\textbf{Tabla: locations}
-\begin{align*}
-\texttt{location\_id} &\rightarrow \texttt{block},\ \texttt{location\_description},\ \texttt{x\_coordinate},\ \texttt{y\_coordinate},\ \texttt{latitude},\ \texttt{longitude},\ \texttt{location} \\
-(\texttt{block},\ \texttt{location\_description},\ \texttt{x\_coordinate},\ \texttt{y\_coordinate},\ \texttt{latitude},\ \texttt{longitude}) &\rightarrow \texttt{location\_id}
-\end{align*}
+**Tabla: `locations`**
+- location_id → block, location_description, x_coordinate, y_coordinate, latitude, longitude, location  
+- (block, location_description, x_coordinate, y_coordinate, latitude, longitude) → location_id
 
-\textbf{Tabla: crimes}
-\begin{align*}
-\texttt{id} &\rightarrow \texttt{case\_number},\ \texttt{crime\_date},\ \texttt{iucr},\ \texttt{arrest},\ \texttt{domestic},\ \texttt{beat},\ \texttt{district},\ \texttt{ward},\ \texttt{community\_area},\ \texttt{location\_id},\ \texttt{year},\ \texttt{updated\_on} \\
-\texttt{iucr} &\rightarrow \texttt{primary\_type},\ \texttt{description},\ \texttt{fbi\_code} \quad \text{(por clave foránea)} \\
-\texttt{location\_id} &\rightarrow \texttt{location} \quad \text{(por clave foránea)}
-\end{align*}
+**Tabla: `crimes`**
+- id → case_number, crime_date, iucr, arrest, domestic, beat, district, ward, community_area, location_id, year, updated_on  
+- iucr → primary_type, description, fbi_code *(por clave foránea)*  
+- location_id → location *(por clave foránea)*
