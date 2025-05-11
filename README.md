@@ -159,6 +159,47 @@ Este paso facilitó la exploración inicial del dataset y la detección de posib
 
 ⸻
 
+D: Normalización
+
+Durante el análisis estructural del dataset original (staging), se detectaron varias violaciones a los principios de normalización, lo cual podía comprometer la integridad, eficiencia y escalabilidad del modelo de datos.
+
+Violaciones a las formas normales iniciales
+•Tercera Forma Normal (3NF):
+La tabla original contenía dependencias transitivas. Por ejemplo, el campo fbi_code dependía de la combinación primary_type + description, y no directamente de la clave primaria (id). Esto implica que cambios o errores en description podrían afectar la correcta codificación legal del delito.
+•Primera y Segunda Forma Normal (1FN y 2FN):
+Aunque no había campos multivaluados, existía una redundancia significativa entre atributos espaciales (block, location_description, x/y, latitude/longitude, location), lo cual sugería la presencia de dependencias parciales no explícitas.
+
+Para corregir estas violaciones y mejorar la calidad del modelo, se realizó la siguiente reestructuración:
+1.Creación de la tabla crime_codes:
+
+Se extrajeron los campos iucr, primary_type, description y fbi_code a una tabla independiente, asegurando que cada combinación represente unívocamente una categoría delictiva.
+2.Creación de la tabla locations:
+
+Se separaron los datos geográficos en una tabla relacional propia, con una clave primaria (location_id) y una combinación única de atributos espaciales. Esto eliminó la duplicación innecesaria y facilitó futuras uniones espaciales.
+3.Reestructuración de staging:
+
+La tabla principal ahora solo conserva claves foráneas (iucr, location_id) hacia las tablas normalizadas, además de los campos operativos como case_number, crime_date, arrest, etc.
+
+El nuevo modelo cumple con la 4FN, ya que:
+•Todas las dependencias multivaluadas (por ejemplo, múltiples ubicaciones o clasificaciones para un mismo evento) fueron eliminadas al separar entidades independientes en tablas distintas.
+•No existen combinaciones independientes de atributos no clave que generen redundancia cruzada en una misma tabla.
+•Cada tabla representa una entidad única y sus dependencias funcionales directas, sin ambigüedad.
+
+## Dependencias Funcionales
+
+**Tabla: `crime_codes`**
+- iucr → primary_type, description, fbi_code  
+- (primary_type, description) → fbi_code *(si se cumple siempre)*
+
+**Tabla: `locations`**
+- location_id → block, location_description, x_coordinate, y_coordinate, latitude, longitude, location  
+- (block, location_description, x_coordinate, y_coordinate, latitude, longitude) → location_id
+
+**Tabla: `crimes`**
+- id → case_number, crime_date, iucr, arrest, domestic, beat, district, ward, community_area, location_id, year, updated_on  
+- iucr → primary_type, description, fbi_code *(por clave foránea)*  
+- location_id → location *(por clave foránea)*
+
 Conclusión
 
 La limpieza del dataset fue cuidadosa y no destructiva.
