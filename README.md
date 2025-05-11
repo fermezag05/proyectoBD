@@ -192,3 +192,24 @@ El nuevo modelo cumple con la 4FN, ya que:
 •Todas las dependencias multivaluadas (por ejemplo, múltiples ubicaciones o clasificaciones para un mismo evento) fueron eliminadas al separar entidades independientes en tablas distintas.
 •No existen combinaciones independientes de atributos no clave que generen redundancia cruzada en una misma tabla.
 •Cada tabla representa una entidad única y sus dependencias funcionales directas, sin ambigüedad.
+
+\subsection*{Dependencias Funcionales}
+
+\textbf{Tabla: crime\_codes}
+\begin{align*}
+\texttt{iucr} &\rightarrow \texttt{primary\_type},\ \texttt{description},\ \texttt{fbi\_code} \\
+(\texttt{primary\_type},\ \texttt{description}) &\rightarrow \texttt{fbi\_code} \quad \text{(si se cumple siempre)}
+\end{align*}
+
+\textbf{Tabla: locations}
+\begin{align*}
+\texttt{location\_id} &\rightarrow \texttt{block},\ \texttt{location\_description},\ \texttt{x\_coordinate},\ \texttt{y\_coordinate},\ \texttt{latitude},\ \texttt{longitude},\ \texttt{location} \\
+(\texttt{block},\ \texttt{location\_description},\ \texttt{x\_coordinate},\ \texttt{y\_coordinate},\ \texttt{latitude},\ \texttt{longitude}) &\rightarrow \texttt{location\_id}
+\end{align*}
+
+\textbf{Tabla: crimes}
+\begin{align*}
+\texttt{id} &\rightarrow \texttt{case\_number},\ \texttt{crime\_date},\ \texttt{iucr},\ \texttt{arrest},\ \texttt{domestic},\ \texttt{beat},\ \texttt{district},\ \texttt{ward},\ \texttt{community\_area},\ \texttt{location\_id},\ \texttt{year},\ \texttt{updated\_on} \\
+\texttt{iucr} &\rightarrow \texttt{primary\_type},\ \texttt{description},\ \texttt{fbi\_code} \quad \text{(por clave foránea)} \\
+\texttt{location\_id} &\rightarrow \texttt{location} \quad \text{(por clave foránea)}
+\end{align*}
