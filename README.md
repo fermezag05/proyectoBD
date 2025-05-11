@@ -13,7 +13,7 @@ Número de atributos que se usarán: 22
 
 | Nombre                | Descripción                                                                                                                                     | Tipo de Dato       |
 |-----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|--------------------|
-| ID                    | Es el identificador único del reporte.                                                                                                          | Bigserial          |
+| ID                    | Es el identificador único del reporte.                                                                                                          | BIGINT          |
 | Case Number           | El número de división de registros del Departamento de Policía de Chicago, que es exclusivo del incidente.                                     | VARCHAR            |
 | Date                  | Fecha en que ocurrió el incidente                                                                                                               | TEXT               |
 | Block                 | La dirección parcialmente redactada donde ocurrió el incidente, colocándola en el mismo bloque que la dirección real.                          | VARCHAR            |
@@ -54,7 +54,7 @@ Reemplaza nombre_de_la_base con el nombre que desees darle. Después, conéctate
 \c nombre_de_la_base
 A continuación, copia y pega el siguiente script para crear una tabla en SQL:
 ```sql
-CREATE TABLE staging(id BIGSERIAL PRIMARY KEY,
+CREATE TABLE staging(id BIGINT PRIMARY KEY,
  case_number VARCHAR(200) NOT NULL,
  crime_date TEXT,
  block VARCHAR(200),
