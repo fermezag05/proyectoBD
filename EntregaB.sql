@@ -126,6 +126,31 @@ SELECT
 FROM staging;
 --¿Existen inconsistencias en el set de datos?
 
+ --buscamos inconsistencias
+SELECT 
+    primary_type, 
+    description, 
+    COUNT(DISTINCT fbi_code) AS distinct_fbi_codes
+FROM staging
+GROUP BY primary_type, description
+HAVING COUNT(DISTINCT fbi_code) > 1;
 
+SELECT 
+    primary_type, 
+    description, 
+    fbi_code, 
+    COUNT(*) AS occurrences
+FROM staging
+WHERE primary_type = 'DECEPTIVE PRACTICE'
+  AND description = 'UNAUTHORIZED VIDEOTAPING'
+GROUP BY primary_type, description, fbi_code;
 
+SELECT case_number, COUNT(*) AS count_per_case
+FROM staging
+GROUP BY case_number
+HAVING COUNT(*) > 1
+ORDER BY count_per_case DESC;
 
+SELECT *
+FROM staging
+WHERE case_number = 'JE266473';
