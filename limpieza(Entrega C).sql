@@ -97,3 +97,14 @@ SELECT
 FROM staging
 GROUP BY iucr, primary_type, description, fbi_code
 ORDER BY iucr, ocurrencias DESC;
+-- Query para ver específicamente si hay espacios al inicio/final en 'primary_type'
+SELECT COUNT(*)
+FROM staging
+WHERE primary_type <> TRIM(primary_type); -- TRIM quita espacios al inicio y final
+
+
+-- Esto lista variaciones que podrían ser la misma categoría
+SELECT DISTINCT primary_type
+FROM staging
+ORDER BY primary_type;
+-- (Revisión visual requerida para identificar ' THEFT' vs 'THEFT' o 'Theft' vs 'THEFT')
