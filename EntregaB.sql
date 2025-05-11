@@ -38,6 +38,22 @@ UPDATE staging SET crime_timestamp = TO_TIMESTAMP(crime_date, 'MM/DD/YYYY HH12:M
 ALTER TABLE staging DROP COLUMN crime_date;
 ALTER TABLE staging RENAME COLUMN crime_timestamp TO crime_date;
 
+-- ¿Existen columnas con valores únicos?
+
+-- Mínimos y máximos de fechas
+
+-- Mínimos, máximos y promedios de valores numéricos
+
+-- Duplicados en atributos categóricos
+
+-- Columnas redundantes
+
+--Conteo de tuplas por cada categoría
+
+--Conteo de valores nulos
+
+--¿Existen inconsistencias en el set de datos?
+
 
 
 
