@@ -163,8 +163,20 @@ SELECT *
 FROM staging
 WHERE case_number = 'JE266473';
 
+-- Query para ver específicamente si hay espacios al inicio/final en 'primary_type'
+SELECT COUNT(*)
+FROM staging
+WHERE primary_type <> TRIM(primary_type); -- TRIM quita espacios al inicio y final
+
+-- Esto lista variaciones que podrían ser la misma categoría
+SELECT DISTINCT primary_type
+FROM staging
+ORDER BY primary_type;
+-- (Revisión visual requerida para identificar ' THEFT' vs 'THEFT' o 'Theft' vs 'THEFT')
+
 -- CONCLUSIÓN:
 -- Se identificaron inconsistencias en el dataset:
 -- 1. Existen duplicados lógicos de casos, es decir, múltiples filas con el mismo case_number (ej. JE266473).
 -- 2. Algunas combinaciones de (primary_type, description) están asociadas a más de un fbi_code, lo cual rompe la consistencia semántica esperada.
--- Estas inconsistencias deben corregirse para asegurar integridad y coherencia antes de cualquier análisis o normalización del modelo de datos.
+-- 3. No hay inconsistencias en el nombre del primary_type 
+--Estas inconsistencias deben corregirse para asegurar integridad y coherencia antes de cualquier análisis o normalización del modelo de datos.
