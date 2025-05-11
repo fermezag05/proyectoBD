@@ -39,7 +39,33 @@ ALTER TABLE staging DROP COLUMN crime_date;
 ALTER TABLE staging RENAME COLUMN crime_timestamp TO crime_date;
 
 -- ¿Existen columnas con valores únicos?
-
+WITH totals AS (
+  SELECT COUNT(*) AS total FROM staging
+)
+SELECT 
+  (COUNT(DISTINCT id) = (SELECT total FROM totals)) AS id_unico,
+  (COUNT(DISTINCT case_number) = (SELECT total FROM totals)) AS case_number_unico,
+  (COUNT(DISTINCT block) = (SELECT total FROM totals)) AS block_unico,
+  (COUNT(DISTINCT iucr) = (SELECT total FROM totals)) AS iucr_unico,
+  (COUNT(DISTINCT primary_type) = (SELECT total FROM totals)) AS primary_type_unico,
+  (COUNT(DISTINCT description) = (SELECT total FROM totals)) AS description_unico,
+  (COUNT(DISTINCT location_description) = (SELECT total FROM totals)) AS location_description_unico,
+  (COUNT(DISTINCT arrest) = (SELECT total FROM totals)) AS arrest_unico,
+  (COUNT(DISTINCT domestic) = (SELECT total FROM totals)) AS domestic_unico,
+  (COUNT(DISTINCT beat) = (SELECT total FROM totals)) AS beat_unico,
+  (COUNT(DISTINCT district) = (SELECT total FROM totals)) AS district_unico,
+  (COUNT(DISTINCT ward) = (SELECT total FROM totals)) AS ward_unico,
+  (COUNT(DISTINCT community_area) = (SELECT total FROM totals)) AS community_area_unico,
+  (COUNT(DISTINCT fbi_code) = (SELECT total FROM totals)) AS fbi_code_unico,
+  (COUNT(DISTINCT x_coordinate) = (SELECT total FROM totals)) AS x_coordinate_unico,
+  (COUNT(DISTINCT y_coordinate) = (SELECT total FROM totals)) AS y_coordinate_unico,
+  (COUNT(DISTINCT year) = (SELECT total FROM totals)) AS year_unico,
+  (COUNT(DISTINCT updated_on) = (SELECT total FROM totals)) AS updated_on_unico,
+  (COUNT(DISTINCT latitude) = (SELECT total FROM totals)) AS latitude_unico,
+  (COUNT(DISTINCT longitude) = (SELECT total FROM totals)) AS longitude_unico,
+  (COUNT(DISTINCT location) = (SELECT total FROM totals)) AS location_unico,
+  (COUNT(DISTINCT crime_date) = (SELECT total FROM totals)) AS crime_date_unico
+FROM staging;
 -- Mínimos y máximos de fechas
 
 SELECT crime_date as maxima
