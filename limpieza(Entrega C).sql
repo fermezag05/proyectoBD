@@ -1,5 +1,21 @@
 -- LIMPIEZA DE DATOS
 
+-- 1. Crear respaldo completo de la tabla original
+CREATE TABLE staging_backup AS
+SELECT *
+FROM staging;
+
+-- 2. Crear tabla limpia dejando solo un registro por case_number
+CREATE TABLE staging_cleaned AS
+WITH ranked_cases AS (
+  SELECT *,
+         ROW_NUMBER() OVER (PARTITION BY case_number ORDER BY id) AS rn
+  FROM staging
+)
+SELECT *
+FROM ranked_cases
+WHERE rn = 1;
+
 -- CTE para identificar duplicados de case_number asignando un número de fila
 WITH ranked_cases AS (
   SELECT *,
