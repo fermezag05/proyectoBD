@@ -6,7 +6,8 @@ from sqlalchemy import create_engine
 import json
 
 # --- 1. Connect to PostgreSQL using SQLAlchemy (Removes warning) ---
-engine = create_engine('postgresql+psycopg2://postgres:1710@localhost/proyecto')
+# ajustar usuario y contraseña
+engine = create_engine('postgresql+psycopg2://insertar_usuario_aqui:insertar_contraseña_aqui@localhost/proyecto')
 
 query = """
 SELECT crimes.id, coordinates.latitude, coordinates.longitude
