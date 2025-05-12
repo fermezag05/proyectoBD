@@ -44,5 +44,6 @@ CREATE TABLE crimes(
     ward BIGINT,
     community_area BIGINT,
     "year" BIGINT,
-    updated_on TIMESTAMP
+    updated_on TIMESTAMP,
+    UNIQUE(case_number, crime_date, iucr, location_id)
 );
