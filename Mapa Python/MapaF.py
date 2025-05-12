@@ -23,7 +23,7 @@ geometry = [Point(xy) for xy in zip(crimes_df['longitude'], crimes_df['latitude'
 crimes_gdf = gpd.GeoDataFrame(crimes_df, geometry=geometry, crs="EPSG:4326")
 
 # --- 3. Load Police Districts Shapefile ---
-districts = gpd.read_file("/Users/jorgepuszkar/ProyectoBas/PoliceDistrict/PoliceDistrict.shp")
+districts = gpd.read_file("poner ruta de la carpeta del shape file")
 
 # --- 4. Reproject both to EPSG:4326 if needed ---
 if str(districts.crs) != "EPSG:4326":
