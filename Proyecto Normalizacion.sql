@@ -30,7 +30,7 @@ CREATE TABLE locations (
     id BIGSERIAL PRIMARY KEY,
     block_id BIGINT REFERENCES blocks(id) ON DELETE CASCADE,
     description_id BIGINT REFERENCES locations_descriptions(id) ON DELETE CASCADE,
-    coordinate_id BIGINT REFERENCES coordinates(id) ON DELETE CASCADE,
+    coordinate_id BIGINT REFERENCES coordinates(id) ON DELETE CASCADE
 );
 
 CREATE TABLE crimes(
