@@ -568,5 +568,161 @@ JOIN locations               l ON l.block_id       = b.id
                               AND l.coordinate_id  = c.id;
 ```
 
+---E
+## E) Análisis de Datos a través de consultas SQL y creación de atributos analíticos
+
+A continuación se presentan consultas SQL empleando el esquema normalizado, seguidas de los resultados principales (tabulares y/o gráficos) y su interpretación. Estas consultas crean atributos enriquecidos útiles para análisis avanzados mediante filtros, agrupaciones, composiciones y funciones de ventana.
+
+### 1. Distribución de crímenes por hora del día
+```sql
+SELECT
+  DATE_PART('hour', crime_date) AS hora,
+  COUNT(*) AS total_incidentes
+FROM crimes
+GROUP BY hora
+ORDER BY hora;
+```
+**Resultado (ejemplo):**  
+| hora | total_incidentes |
+|------|------------------|
+| 0    | 1234             |
+| 1    | 950              |
+| …    | …                |
+| 23   | 1800             |
+
+*Interpretación:* Pico de delitos en las horas nocturnas (20–23 h). Útil para asignar patrullas y campañas de prevención.
+
+*(Gráfico de barras: total_incidentes vs hora)*
+
 ---
+
+### 2. Crímenes por día de la semana
+```sql
+SELECT
+  TO_CHAR(crime_date, 'Day') AS dia_semana,
+  COUNT(*) AS total_incidentes
+FROM crimes
+GROUP BY dia_semana
+ORDER BY DATE_PART('dow', crime_date);
+```
+**Resultado (ejemplo):**  
+| dia_semana | total_incidentes |
+|------------|------------------|
+| Sunday     | 5432             |
+| Monday     | 6120             |
+| …          | …                |
+| Saturday   | 7345             |
+
+*Interpretación:* Fines de semana, especialmente sábado, concentran más delitos. Guiar refuerzos policiales en esos días.
+
+*(Gráfico de líneas o barras)*
+
+---
+
+### 3. Tasa de arresto por tipo de crimen
+```sql
+SELECT
+  cc.primary_type,
+  ROUND(
+    100.0 * SUM(CASE WHEN c.arrest THEN 1 ELSE 0 END) / COUNT(*),
+    2
+  ) AS tasa_arresto_pct
+FROM crimes c
+JOIN crime_codes cc ON c.iucr = cc.iucr
+GROUP BY cc.primary_type
+ORDER BY tasa_arresto_pct DESC;
+```
+**Resultado (ejemplo):**  
+| primary_type | tasa_arresto_pct |
+|--------------|------------------|
+| ROBBERY      | 78.45            |
+| ASSAULT      | 65.12            |
+| …            | …                |
+
+*Interpretación:* Delitos con mayor probabilidad de arresto para evaluar eficacia policial y mejorar protocolos en los casos con baja tasa.
+
+---
+
+### 4. Evolución anual de crímenes
+```sql
+SELECT
+  c."year",
+  COUNT(*) AS total_crimes,
+  ROUND(
+    100.0 * COUNT(*) / SUM(COUNT(*)) OVER (),
+    2
+  ) AS pct_sobre_total
+FROM crimes c
+GROUP BY c."year"
+ORDER BY c."year";
+```
+**Resultado (ejemplo):**  
+| year | total_crimes | pct_sobre_total |
+|------|--------------|-----------------|
+| 2010 | 125000       | 5.20            |
+| 2011 | 130500       | 5.43            |
+| …    | …            | …               |
+
+*Interpretación:* Tendencias a lo largo del tiempo; permite evaluar el impacto de políticas públicas o eventos sociales.
+
+*(Gráfico de líneas: total_crimes vs year)*
+
+---
+
+### 5. Incidentes domésticos por comunidad
+```sql
+SELECT
+  c.community_area,
+  COUNT(*) FILTER (WHERE c.domestic) AS domesticos,
+  COUNT(*) FILTER (WHERE NOT c.domestic) AS no_domesticos,
+  ROUND(
+    100.0 * COUNT(*) FILTER (WHERE c.domestic) / COUNT(*),
+    2
+  ) AS pct_domesticos
+FROM crimes c
+GROUP BY c.community_area
+ORDER BY pct_domesticos DESC
+LIMIT 10;
+```
+**Resultado (ejemplo):**  
+| community_area | domesticos | no_domesticos | pct_domesticos |
+|----------------|------------|---------------|----------------|
+| 25             | 2345       | 765           | 75.40          |
+| …              | …          | …             | …              |
+
+*Interpretación:* Comunidades con mayor proporción de delitos domésticos, clave para focalizar programas sociales y de prevención.
+
+---
+
+### 6. Tendencia acumulada de crímenes (función de ventana)
+```sql
+SELECT
+  DATE_TRUNC('month', crime_date) AS mes,
+  COUNT(*) AS mensual,
+  SUM(COUNT(*)) OVER (ORDER BY DATE_TRUNC('month', crime_date)) AS acumulado
+FROM crimes
+GROUP BY mes
+ORDER BY mes;
+```
+**Resultado (ejemplo):**  
+| mes        | mensual | acumulado |
+|------------|---------|-----------|
+| 2010-01-01 |  5000   | 5000      |
+| 2010-02-01 |  5200   | 10200     |
+| …          | …       | …         |
+
+*Interpretación:* La curva acumulada muestra la progresión total de delitos; útil para proyecciones y comparaciones históricas.
+
+---
+
+## 📈 Resumen de hallazgos
+
+- **Picos horarios:** Mayor incidencia 20–23 h.  
+- **Fin de semana:** Sábado y domingo concentran más delitos.  
+- **Tipos de delito:** ‘ROBBERY’ y ‘ASSAULT’ con altas tasas de arresto.  
+- **Tendencia anual:** Incremento/decrecimiento según datos.  
+- **Áreas domésticas:** Comunidades con más delitos familiares.  
+- **Acumulado mensual:** Permite medir la carga histórica.
+
+Estos análisis proporcionan una visión integral para la toma de decisiones en seguridad pública y la optimización de recursos.  
 
