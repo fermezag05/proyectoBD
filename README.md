@@ -371,11 +371,3 @@ erDiagram
         BIGINT year
         TIMESTAMP updated_on
     }
-
-    crime_codes ||--o{ crimes         : "iucr → crimes.iucr"
-    blocks      ||--o{ locations      : "blocks.id → locations.block_id"
-    locations_descriptions ||--o{ locations : "… → description_id"
-    coordinates ||--o{ locations      : "… → coordinate_id"
-    locations   ||--o{ crimes         : "locations.id → crimes.location_id"
-
-
