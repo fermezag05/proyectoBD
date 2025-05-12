@@ -1,5 +1,3 @@
-BEGIN;
-
 CREATE TABLE crime_codes (
     iucr VARCHAR(10) PRIMARY KEY,
     primary_type VARCHAR(200) NOT NULL,
@@ -48,5 +46,3 @@ CREATE TABLE crimes(
     "year" BIGINT,
     updated_on TIMESTAMP
 );
-
-ROLLBACK;
