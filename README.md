@@ -157,6 +157,12 @@ Se generaron conteos por las siguientes variables categóricas:
 Justificación:
 Este paso facilitó la exploración inicial del dataset y la detección de posibles sesgos o categorías predominantes.
 
+Conclusión
+
+La limpieza del dataset fue cuidadosa y no destructiva.
+Se documentaron todos los pasos y se dejaron versiones limpias y respaldadas para futuros análisis.
+El dataset quedó listo para ser utilizado de forma confiable en las siguientes etapas del proyecto.
+
 ⸻
 
 D: Normalización
@@ -200,11 +206,7 @@ El nuevo modelo cumple con la 4FN, ya que:
 - iucr → primary_type, description, fbi_code *(por clave foránea)*  
 - location_id → location *(por clave foránea)*
 
-Conclusión
 
-La limpieza del dataset fue cuidadosa y no destructiva.
-Se documentaron todos los pasos y se dejaron versiones limpias y respaldadas para futuros análisis.
-El dataset quedó listo para ser utilizado de forma confiable en las siguientes etapas del proyecto.
 
 
 
