@@ -14,7 +14,7 @@ CREATE TABLE blocks (
 
 CREATE TABLE locations_descriptions (
 	id BIGSERIAL PRIMARY KEY,
-	location_description VARCHAR(200) NOT NULL
+	location_description VARCHAR(200)
 );
 
 CREATE TABLE coordinates (
@@ -28,18 +28,17 @@ CREATE TABLE coordinates (
 
 CREATE TABLE locations (
     id BIGSERIAL PRIMARY KEY,
-    block_id BIGINT REFERENCES blocks(id),
-    description_id BIGINT REFERENCES locations_descriptions(id),
-    coordinate_id BIGINT REFERENCES coordinates(id),
-    UNIQUE (block_id, description_id, coordinate_id)
+    block_id BIGINT REFERENCES blocks(id) ON DELETE CASCADE,
+    description_id BIGINT REFERENCES locations_descriptions(id) ON DELETE CASCADE,
+    coordinate_id BIGINT REFERENCES coordinates(id) ON DELETE CASCADE,
 );
 
 CREATE TABLE crimes(
     id BIGSERIAL PRIMARY KEY,
     case_number VARCHAR(200) NOT NULL,
     crime_date TIMESTAMP NOT NULL,
-    iucr VARCHAR(10) REFERENCES crime_codes(iucr),
-    location_id BIGINT REFERENCES locations(id),
+    iucr VARCHAR(10) REFERENCES crime_codes(iucr) ON DELETE CASCADE,
+    location_id BIGINT REFERENCES locations(id) ON DELETE CASCADE,
     arrest BOOLEAN NOT NULL,
     domestic BOOLEAN NOT NULL,
     beat BIGINT,
