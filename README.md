@@ -285,44 +285,303 @@ ORDER BY iucr, ocurrencias DESC;
 La limpieza del dataset fue cuidadosa, sistemática y no destructiva. Se crearon respaldos y versiones limpias, se eliminaron duplicados, se evaluó la integridad espacial y semántica de los datos, y se corrigieron inconsistencias relevantes. El dataset quedó listo para análisis exploratorios, modelado, y diseño de una base de datos relacional normalizada.
 ⸻
 
-D: Normalización
+# 🧾 Documentación del Modelo de Base de Datos Normalizado
 
-Durante el análisis estructural del dataset original (staging), se detectaron varias violaciones a los principios de normalización, lo cual podía comprometer la integridad, eficiencia y escalabilidad del modelo de datos.
+Este proyecto implementa un modelo relacional normalizado a partir de una tabla original de crímenes (`staging`). El objetivo fue eliminar redundancias, asegurar integridad referencial y cumplir con las formas normales hasta 4NF.
 
-Violaciones a las formas normales iniciales
-•Tercera Forma Normal (3NF):
-La tabla original contenía dependencias transitivas. Por ejemplo, el campo fbi_code dependía de la combinación primary_type + description, y no directamente de la clave primaria (id). Esto implica que cambios o errores en description podrían afectar la correcta codificación legal del delito.
-•Primera y Segunda Forma Normal (1FN y 2FN):
-Aunque no había campos multivaluados, existía una redundancia significativa entre atributos espaciales (block, location_description, x/y, latitude/longitude, location), lo cual sugería la presencia de dependencias parciales no explícitas.
+---
 
-Para corregir estas violaciones y mejorar la calidad del modelo, se realizó la siguiente reestructuración:
-1.Creación de la tabla crime_codes:
+## 📊 Dependencias Funcionales
 
-Se extrajeron los campos iucr, primary_type, description y fbi_code a una tabla independiente, asegurando que cada combinación represente unívocamente una categoría delictiva.
-2.Creación de la tabla locations:
+### `crime_codes`
+```
+iucr → primary_type, description, fbi_code
+```
 
-Se separaron los datos geográficos en una tabla relacional propia, con una clave primaria (location_id) y una combinación única de atributos espaciales. Esto eliminó la duplicación innecesaria y facilitó futuras uniones espaciales.
-3.Reestructuración de staging:
+### `blocks`
+```
+id → block  
+block → id
+```
 
-La tabla principal ahora solo conserva claves foráneas (iucr, location_id) hacia las tablas normalizadas, además de los campos operativos como case_number, crime_date, arrest, etc.
+### `locations_descriptions`
+```
+id → location_description  
+location_description → id
+```
 
-El nuevo modelo cumple con la 4FN, ya que:
-•Todas las dependencias multivaluadas (por ejemplo, múltiples ubicaciones o clasificaciones para un mismo evento) fueron eliminadas al separar entidades independientes en tablas distintas.
-•No existen combinaciones independientes de atributos no clave que generen redundancia cruzada en una misma tabla.
-•Cada tabla representa una entidad única y sus dependencias funcionales directas, sin ambigüedad.
+### `coordinates`
+```
+id → x_coordinate, y_coordinate, latitude, longitude, location  
+(x_coordinate, y_coordinate, latitude, longitude, location) → id
+```
 
-## Dependencias Funcionales
+### `locations`
+```
+id → block_id, description_id, coordinate_id  
+(block_id, description_id, coordinate_id) → id
+```
 
-**Tabla: `crime_codes`**
-- iucr → primary_type, description, fbi_code  
-- (primary_type, description) → fbi_code *(si se cumple siempre)*
+### `crimes`
+```
+id → case_number, crime_date, iucr, location_id, arrest, domestic, beat, district, ward, community_area, year, updated_on  
+(case_number, crime_date, iucr, location_id) → id
+```
 
-**Tabla: `locations`**
-- location_id → block, location_description, x_coordinate, y_coordinate, latitude, longitude, location  
-- (block, location_description, x_coordinate, y_coordinate, latitude, longitude) → location_id
+---
 
-**Tabla: `crimes`**
-- id → case_number, crime_date, iucr, arrest, domestic, beat, district, ward, community_area, location_id, year, updated_on  
-- iucr → primary_type, description, fbi_code *(por clave foránea)*  
-- location_id → location *(por clave foránea)*
+## 🔁 Dependencias Multivaluadas
+
+No existen dependencias multivaluadas en el esquema final. Cada tabla representa una sola entidad o relación, y ha sido descompuesta correctamente hasta alcanzar la **Cuarta Forma Normal (4NF)**, eliminando cualquier repetición independiente de datos.
+
+---
+
+## 🧠 Proceso de Normalización
+
+### 🔹 Etapa Inicial (Tabla `staging`)
+
+La tabla original contenía múltiples redundancias, como:
+
+- Repetición innecesaria de los mismos `iucr`, `primary_type`, `description` y `fbi_code`.
+- Información duplicada de bloques (`block`), descripciones (`location_description`) y coordenadas.
+- Violaciones a 2NF y 3NF por dependencias funcionales parciales y transitivas.
+
+### 🔸 Objetivo
+
+Reducir redundancia, evitar anomalías de actualización/eliminación, y mejorar el rendimiento y la integridad del sistema mediante un modelo 100% normalizado.
+
+---
+
+## ✅ Formas Normales Alcanzadas
+
+### 1NF (Primera Forma Normal)
+- Todos los atributos son atómicos.
+- No existen listas ni estructuras anidadas.
+
+### 2NF (Segunda Forma Normal)
+- Eliminadas dependencias parciales creando tablas independientes para `crime_codes`, `blocks`, `coordinates`, etc.
+
+### 3NF (Tercera Forma Normal)
+- Cada campo no clave depende únicamente de la clave primaria.
+- Eliminadas todas las dependencias transitivas.
+
+### BCNF (Forma Normal de Boyce-Codd)
+- Todos los determinantes en las dependencias funcionales son claves candidatas.
+
+### 4NF (Cuarta Forma Normal)
+- No hay dependencias multivaluadas.
+- Relaciones independientes se descompusieron en tablas separadas como `locations`.
+
+---
+
+## 🧩 Justificación del Modelo
+
+Este modelo relacional permite:
+
+- Reutilización eficiente de descripciones, coordenadas y códigos sin redundancia.
+- Mantenimiento sencillo gracias a claves foráneas con `ON DELETE CASCADE`.
+- Escalabilidad a grandes volúmenes de datos sin pérdida de integridad.
+- Extensibilidad futura (por ejemplo, incluir víctimas, armas, zonas o categorías de delito).
+
+---
+
+## 📌 Estructura de Tablas
+
+```sql
+CREATE TABLE crime_codes (
+    iucr VARCHAR(10) PRIMARY KEY,
+    primary_type VARCHAR(200) NOT NULL,
+    description VARCHAR(200) NOT NULL,
+    fbi_code VARCHAR(10) NOT NULL
+);
+
+CREATE TABLE blocks (
+	id BIGSERIAL PRIMARY KEY,
+	block VARCHAR(200) NOT NULL
+);
+
+CREATE TABLE locations_descriptions (
+	id BIGSERIAL PRIMARY KEY,
+	location_description VARCHAR(200)
+);
+
+CREATE TABLE coordinates (
+	id BIGSERIAL PRIMARY KEY,
+	x_coordinate BIGINT,
+	y_coordinate BIGINT,
+	latitude DOUBLE PRECISION,
+	longitude DOUBLE PRECISION,
+	location VARCHAR(200)
+);
+
+CREATE TABLE locations (
+    id BIGSERIAL PRIMARY KEY,
+    block_id BIGINT REFERENCES blocks(id) ON DELETE CASCADE,
+    description_id BIGINT REFERENCES locations_descriptions(id) ON DELETE CASCADE,
+    coordinate_id BIGINT REFERENCES coordinates(id) ON DELETE CASCADE
+);
+
+CREATE TABLE crimes(
+    id BIGSERIAL PRIMARY KEY,
+    case_number VARCHAR(200) NOT NULL,
+    crime_date TIMESTAMP NOT NULL,
+    iucr VARCHAR(10) REFERENCES crime_codes(iucr) ON DELETE CASCADE,
+    location_id BIGINT REFERENCES locations(id) ON DELETE CASCADE,
+    arrest BOOLEAN NOT NULL,
+    domestic BOOLEAN NOT NULL,
+    beat BIGINT,
+    district BIGINT,
+    ward BIGINT,
+    community_area BIGINT,
+    "year" BIGINT,
+    updated_on TIMESTAMP,
+    UNIQUE(case_number, crime_date, iucr, location_id)
+);
+```
+
+---
+
+## 📥 Proceso de Población de Datos
+
+```sql
+-- 1) crime_codes
+INSERT INTO crime_codes (iucr, primary_type, description, fbi_code)
+SELECT DISTINCT
+    sc.iucr,
+    sc.primary_type,
+    sc.description,
+    sc.fbi_code
+FROM staging_cleaned sc
+WHERE sc.iucr IS NOT NULL
+  AND NOT EXISTS (
+    SELECT 1 FROM crime_codes cc WHERE cc.iucr = sc.iucr
+  );
+
+-- 2) blocks
+INSERT INTO blocks (block)
+SELECT DISTINCT sc.block
+FROM staging_cleaned sc
+WHERE sc.block IS NOT NULL
+  AND NOT EXISTS (
+    SELECT 1 FROM blocks b WHERE b.block = sc.block
+  );
+
+-- 3) locations_descriptions
+INSERT INTO locations_descriptions (location_description)
+SELECT DISTINCT sc.location_description
+FROM staging_cleaned sc
+WHERE sc.location_description IS NOT NULL
+  AND NOT EXISTS (
+    SELECT 1 FROM locations_descriptions ld WHERE ld.location_description = sc.location_description
+  );
+
+-- 4) coordinates
+INSERT INTO coordinates (x_coordinate, y_coordinate, latitude, longitude, location)
+SELECT DISTINCT
+    sc.x_coordinate,
+    sc.y_coordinate,
+    sc.latitude,
+    sc.longitude,
+    sc.location
+FROM staging_cleaned sc
+WHERE sc.x_coordinate IS NOT NULL
+  AND sc.y_coordinate IS NOT NULL
+  AND sc.latitude     IS NOT NULL
+  AND sc.longitude    IS NOT NULL
+  AND sc.location     IS NOT NULL
+  AND NOT EXISTS (
+    SELECT 1 FROM coordinates c
+     WHERE c.x_coordinate = sc.x_coordinate
+       AND c.y_coordinate = sc.y_coordinate
+       AND c.latitude     = sc.latitude
+       AND c.longitude    = sc.longitude
+       AND c.location     = sc.location
+  );
+
+-- 5) locations
+WITH distinct_locations AS (
+  SELECT DISTINCT
+      block,
+      location_description,
+      x_coordinate,
+      y_coordinate,
+      latitude,
+      longitude,
+      location
+    FROM staging_cleaned
+    WHERE block IS NOT NULL
+      AND location_description IS NOT NULL
+      AND x_coordinate IS NOT NULL
+      AND y_coordinate IS NOT NULL
+      AND latitude IS NOT NULL
+      AND longitude IS NOT NULL
+      AND location IS NOT NULL
+)
+INSERT INTO locations (block_id, description_id, coordinate_id)
+SELECT
+    b.id, d.id, c.id
+FROM distinct_locations dl
+JOIN blocks b ON dl.block = b.block
+JOIN locations_descriptions d ON dl.location_description = d.location_description
+JOIN coordinates c ON dl.x_coordinate = c.x_coordinate
+                  AND dl.y_coordinate = c.y_coordinate
+                  AND dl.latitude     = c.latitude
+                  AND dl.longitude    = c.longitude
+                  AND dl.location     = c.location
+WHERE NOT EXISTS (
+    SELECT 1 FROM locations l2
+     WHERE l2.block_id = b.id
+       AND l2.description_id = d.id
+       AND l2.coordinate_id = c.id
+);
+
+-- 6) crimes
+INSERT INTO crimes (
+    case_number,
+    crime_date,
+    iucr,
+    location_id,
+    arrest,
+    domestic,
+    beat,
+    district,
+    ward,
+    community_area,
+    "year",
+    updated_on
+)
+SELECT
+    s.case_number,
+    s.crime_date,
+    s.iucr,
+    l.id,
+    s.arrest,
+    s.domestic,
+    s.beat,
+    s.district,
+    s.ward,
+    s.community_area,
+    s."year",
+    s.updated_on
+FROM staging_cleaned s
+JOIN blocks b ON s.block = b.block
+JOIN locations_descriptions d ON s.location_description = d.location_description
+JOIN coordinates c ON s.x_coordinate = c.x_coordinate
+                  AND s.y_coordinate = c.y_coordinate
+                  AND s.latitude     = c.latitude
+                  AND s.longitude    = c.longitude
+                  AND s.location     = c.location
+JOIN locations l ON l.block_id = b.id
+                AND l.description_id = d.id
+                AND l.coordinate_id = c.id
+WHERE NOT EXISTS (
+    SELECT 1 FROM crimes c2
+     WHERE c2.case_number = s.case_number
+       AND c2.crime_date = s.crime_date
+       AND c2.iucr = s.iucr
+       AND c2.location_id = l.id
+);
+```
+
+---
 
