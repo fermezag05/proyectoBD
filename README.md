@@ -97,72 +97,191 @@ ALTER TABLE staging DROP COLUMN crime_date;
 
 ALTER TABLE staging RENAME COLUMN crime_timestamp TO crime_date;
 
-Parte C: 
-Limpieza de Datos
+# Parte C: Limpieza de Datos
 
-Para garantizar la calidad del dataset y asegurar su adecuación al objetivo del proyecto, se llevaron a cabo las siguientes tareas de limpieza y validación sobre la tabla staging:
+Para garantizar la calidad del dataset y su adecuación al objetivo del proyecto, se llevaron a cabo las siguientes tareas de limpieza y validación sobre la tabla `staging`.
 
-1. Eliminación de duplicados por case_number
+---
 
-Se identificaron múltiples registros con el mismo case_number, lo cual indica duplicación lógica de eventos. Antes de la eliminación, se revisaron las tuplas que compartían el mismo case number para afirmar que compartían datos.
-Se utilizó una CTE con ROW_NUMBER() para conservar una sola fila por case_number, seleccionando la de menor id.
+## 1. Respaldo del dataset original
 
-Esta operación no fue destructiva: se creó un respaldo (staging_backup) y una tabla limpia (staging_cleaned).
+Antes de cualquier modificación, se creó un respaldo completo de la tabla original:
 
-Justificación:
-case_number debe ser un identificador único de caso; su duplicación puede distorsionar análisis agregados y espaciales.
+```sql
+CREATE TABLE staging_backup AS
+SELECT * FROM staging;
+```
 
-⸻
+**Justificación**: Esta medida preventiva permite recuperar el estado inicial de los datos ante cualquier error o necesidad de comparación futura.
 
-2. Verificación de inconsistencias en primary_type
+---
 
-Se revisó si existían valores con capitalización inconsistente o espacios al inicio o final de la cadena.
-Resultado: no se encontraron inconsistencias. Todos los valores en primary_type están correctamente formateados.
+## 2. Eliminación de duplicados por `case_number`
 
-Justificación:
-Este paso garantiza que categorías como “THEFT”, “theft” o “ THEFT” no se traten como valores distintos, lo cual fragmentaría los análisis por tipo de crimen.
+Se identificaron múltiples registros con el mismo `case_number`, lo cual indica duplicación lógica de eventos. Se utilizó una CTE con `ROW_NUMBER()` para conservar una sola fila por `case_number`, seleccionando aquella con menor `id`. Esta operación generó una versión limpia de la tabla:
 
-⸻
+```sql
+CREATE TABLE staging_cleaned AS
+WITH ranked_cases AS (
+  SELECT *, ROW_NUMBER() OVER (PARTITION BY case_number ORDER BY id) AS rn
+  FROM staging
+)
+SELECT * FROM ranked_cases
+WHERE rn = 1;
+```
 
-3. Revisión de columnas geográficas (x/y_coordinate vs latitude/longitude)
+Además, se eliminó directamente de `staging` cualquier fila duplicada:
 
-Se validó que una misma combinación de x_coordinate y y_coordinate no tuviera múltiples pares latitude/longitude.
-Resultado: no se encontraron inconsistencias en las coordenadas geográficas.
+```sql
+WITH ranked_cases AS (
+  SELECT *, ROW_NUMBER() OVER (PARTITION BY case_number ORDER BY id) AS rn
+  FROM staging
+)
+DELETE FROM staging
+WHERE id IN (
+  SELECT id FROM ranked_cases WHERE rn > 1
+);
+```
 
-Justificación:
-Esta verificación garantiza la coherencia espacial de los datos para su uso en mapas o análisis de localización.
+**Justificación**: `case_number` debe ser un identificador único de caso; su duplicación puede distorsionar análisis agregados y espaciales.
 
-⸻
+---
 
-4. Conteo de valores nulos
+## 3. Revisión de consistencia en `primary_type`
 
-Se identificó la cantidad de valores nulos por columna. Los hallazgos más relevantes fueron:
-	•	arrest: 1,258 valores nulos
-	•	latitude, longitude y location: 6,604 valores nulos cada uno
+Se inspeccionaron los valores de la columna `primary_type` en busca de inconsistencias por capitalización o espacios.  
+**Resultado**: No se encontraron inconsistencias. Todos los valores estaban correctamente formateados.
 
-Justificación:
-Esta revisión permite evaluar la completitud de los datos antes de entrenar modelos o construir visualizaciones.
-No se imputaron valores por ahora, pero se considera relevante en futuras etapas del proyecto.
+**Justificación**: Evita que valores como “THEFT”, “theft” y “ THEFT” se traten como diferentes, lo cual fragmentaría el análisis.
 
-⸻
+---
 
-5. Análisis de frecuencia en variables categóricas
+## 4. Revisión de columnas geográficas (`x/y_coordinate` vs `latitude/longitude`)
 
-Se generaron conteos por las siguientes variables categóricas:
-	•	primary_type
-	•	location_description
-	•	arrest
-	•	domestic
+Se identificaron combinaciones de `x_coordinate` y `y_coordinate` que estuvieran asociadas a más de un par `latitude`/`longitude`:
 
-Justificación:
-Este paso facilitó la exploración inicial del dataset y la detección de posibles sesgos o categorías predominantes.
+```sql
+SELECT x_coordinate, y_coordinate,
+       COUNT(DISTINCT latitude), COUNT(DISTINCT longitude)
+FROM staging
+GROUP BY x_coordinate, y_coordinate
+HAVING COUNT(DISTINCT latitude) > 1 OR COUNT(DISTINCT longitude) > 1;
+```
 
-Conclusión
+**Resultado**: No se encontraron inconsistencias. Cada par (`x_coordinate`, `y_coordinate`) está asociado a un único par (`latitude`, `longitude`).
 
-La limpieza del dataset fue cuidadosa y no destructiva.
-Se documentaron todos los pasos y se dejaron versiones limpias y respaldadas para futuros análisis.
-El dataset quedó listo para ser utilizado de forma confiable en las siguientes etapas del proyecto.
+**Justificación**: Esta verificación garantiza la coherencia espacial del dataset para su uso en mapas, visualizaciones geográficas y análisis espaciales de crimen.
 
+---
+
+## 5. Conteo de valores nulos
+
+Se identificó la cantidad de valores nulos por columna:
+
+```sql
+SELECT
+  COUNT(CASE WHEN id IS NULL THEN 1 END) AS null_id_count,
+  COUNT(CASE WHEN case_number IS NULL THEN 1 END) AS null_case_number_count,
+  COUNT(CASE WHEN crime_date IS NULL THEN 1 END) AS null_date_count,
+  COUNT(CASE WHEN block IS NULL THEN 1 END) AS null_block_count,
+  COUNT(CASE WHEN primary_type IS NULL THEN 1 END) AS null_primary_type_count,
+  COUNT(CASE WHEN description IS NULL THEN 1 END) AS null_description_count,
+  COUNT(CASE WHEN location_description IS NULL THEN 1 END) AS null_location_description_count,
+  COUNT(CASE WHEN arrest IS NULL THEN 1 END) AS null_arrest_count,
+  COUNT(CASE WHEN domestic IS NULL THEN 1 END) AS null_domestic_count,
+  COUNT(CASE WHEN latitude IS NULL THEN 1 END) AS null_latitude_count,
+  COUNT(CASE WHEN longitude IS NULL THEN 1 END) AS null_longitude_count,
+  COUNT(CASE WHEN location IS NULL THEN 1 END) AS null_location_count;
+```
+
+**Resultado**:
+- `location_description`: 1,258 valores nulos  
+- `latitude`, `longitude`, `x_coordinate`, `y_coordinate`, `location`: 6,604 valores nulos cada una
+
+**Justificación**: Es necesario evaluar la completitud de los datos antes de construir modelos o visualizaciones. Aún no se imputaron valores.
+
+---
+
+## 6. Verificación de inconsistencias en la codificación `fbi_code`
+
+Se identificaron combinaciones de `primary_type` y `description` con más de un código `fbi_code`:
+
+```sql
+SELECT primary_type, description, COUNT(DISTINCT fbi_code) AS distinct_fbi_codes
+FROM staging
+GROUP BY primary_type, description
+HAVING COUNT(DISTINCT fbi_code) > 1;
+```
+
+Se revisó el caso específico de:
+
+```sql
+SELECT primary_type, description, fbi_code, COUNT(*) AS occurrences
+FROM staging
+WHERE primary_type = 'DECEPTIVE PRACTICE'
+  AND description = 'UNAUTHORIZED VIDEOTAPING'
+GROUP BY primary_type, description, fbi_code;
+```
+
+**Resultado**:
+- `'fbi_code' = '11'`: 42 veces  
+- `'fbi_code' = '17'`: 1 vez
+
+Se unificó a `'fbi_code' = '11'`:
+
+```sql
+UPDATE staging
+SET fbi_code = '11'
+WHERE primary_type = 'DECEPTIVE PRACTICE'
+  AND description = 'UNAUTHORIZED VIDEOTAPING'
+  AND fbi_code = '17';
+```
+
+**Justificación**: Cada combinación (`primary_type`, `description`) debe tener un solo `fbi_code` asociado para mantener integridad semántica y facilitar la normalización en `crime_codes`.
+
+---
+
+## 7. Evaluación de ambigüedad en códigos `iucr`
+
+Se evaluó cuántos tipos y descripciones distintas tenía cada `iucr`:
+
+```sql
+SELECT 
+    iucr,
+    COUNT(*) AS total_ocurrencias,
+    COUNT(DISTINCT primary_type) AS tipos_distintos,
+    COUNT(DISTINCT description) AS descripciones_distintas,
+    COUNT(DISTINCT fbi_code) AS codigos_fbi_distintos
+FROM staging
+GROUP BY iucr
+ORDER BY tipos_distintos DESC, descripciones_distintas DESC;
+```
+
+**Resultado**: Algunos `iucr` tenían múltiples combinaciones, lo cual sugiere ambigüedad.
+
+**Justificación**: Cada `iucr` debería estar vinculado a una sola combinación semántica para ser clave primaria en `crime_codes`.
+
+---
+
+## 8. Validación de combinaciones únicas `iucr`, `primary_type`, `description`, `fbi_code`
+
+Se revisaron todas las combinaciones posibles de esas cuatro columnas:
+
+```sql
+SELECT 
+    iucr, primary_type, description, fbi_code, COUNT(*) AS ocurrencias
+FROM staging
+GROUP BY iucr, primary_type, description, fbi_code
+ORDER BY iucr, ocurrencias DESC;
+```
+
+**Justificación**: Validar la unicidad de estas combinaciones asegura la correcta construcción de relaciones en una base de datos normalizada.
+
+---
+
+## Conclusión
+
+La limpieza del dataset fue cuidadosa, sistemática y no destructiva. Se crearon respaldos y versiones limpias, se eliminaron duplicados, se evaluó la integridad espacial y semántica de los datos, y se corrigieron inconsistencias relevantes. El dataset quedó listo para análisis exploratorios, modelado, y diseño de una base de datos relacional normalizada.
 ⸻
 
 D: Normalización
