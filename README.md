@@ -5,6 +5,7 @@ PROYECTO EQUIPO 3
 
 Nuestros datos contienen información sobre los crímenes que se han cometido en la ciudad de Chicago a partir del 2021. Estos datos incluyen información relevante sobre los crímenes, así como: fecha, tipo de crimen, si sucede un arresto, ubicación del crimen y más. Los datos fueron extraídos del Chicago Data Portal.
 	Nuestros datos son recolectados por el sistema CLEAR (Citizen Law Enforcement Analysis and Reporting) del departamento de policía de Chicago. El propósito de la recolección de estos datos es para mantener un registro sobre los crímenes que ocurren en la ciudad de Chicago. Los datos se pueden obtener en el Chicago Data Portal: https://data.cityofchicago.org/Public-Safety/Crimes-2021/dwme-t96c/about_data
+Nota: Realizamos este proyecto con la base de datos adjunta en el zip, ya que sabíamos que junto con las actualizaciones de los datos podrían venir cambios, por lo que decisimos utilizar todos la misma versión).
 Los datos se actualizan de manera diaria, permitiéndonos utilizar datos sobre crímenes muy recientes (se bajó el csv de la última actualización de la base de datos el día 16 de Abril del 2025). 
 
 Información sobre la base de datos:
