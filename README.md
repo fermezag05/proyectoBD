@@ -445,6 +445,9 @@ CREATE TABLE crimes(
 ## Proceso de Población de Datos
 
 ```sql
+--Población
+
+
 -- 1) crime_codes
 INSERT INTO crime_codes (iucr, primary_type, description, fbi_code)
 SELECT DISTINCT
@@ -455,25 +458,33 @@ SELECT DISTINCT
 FROM staging_cleaned sc
 WHERE sc.iucr IS NOT NULL
   AND NOT EXISTS (
-    SELECT 1 FROM crime_codes cc WHERE cc.iucr = sc.iucr
+    SELECT 1
+      FROM crime_codes cc
+     WHERE cc.iucr = sc.iucr
   );
 
 -- 2) blocks
 INSERT INTO blocks (block)
-SELECT DISTINCT sc.block
+SELECT DISTINCT
+    sc.block
 FROM staging_cleaned sc
 WHERE sc.block IS NOT NULL
   AND NOT EXISTS (
-    SELECT 1 FROM blocks b WHERE b.block = sc.block
+    SELECT 1
+      FROM blocks b
+     WHERE b.block = sc.block
   );
 
 -- 3) locations_descriptions
 INSERT INTO locations_descriptions (location_description)
-SELECT DISTINCT sc.location_description
+SELECT DISTINCT
+    sc.location_description
 FROM staging_cleaned sc
 WHERE sc.location_description IS NOT NULL
   AND NOT EXISTS (
-    SELECT 1 FROM locations_descriptions ld WHERE ld.location_description = sc.location_description
+    SELECT 1
+      FROM locations_descriptions ld
+     WHERE ld.location_description = sc.location_description
   );
 
 -- 4) coordinates
@@ -491,7 +502,8 @@ WHERE sc.x_coordinate IS NOT NULL
   AND sc.longitude    IS NOT NULL
   AND sc.location     IS NOT NULL
   AND NOT EXISTS (
-    SELECT 1 FROM coordinates c
+    SELECT 1
+      FROM coordinates c
      WHERE c.x_coordinate = sc.x_coordinate
        AND c.y_coordinate = sc.y_coordinate
        AND c.latitude     = sc.latitude
@@ -499,44 +511,23 @@ WHERE sc.x_coordinate IS NOT NULL
        AND c.location     = sc.location
   );
 
--- 5) locations
-WITH distinct_locations AS (
-  SELECT DISTINCT
-      block,
-      location_description,
-      x_coordinate,
-      y_coordinate,
-      latitude,
-      longitude,
-      location
-    FROM staging_cleaned
-    WHERE block IS NOT NULL
-      AND location_description IS NOT NULL
-      AND x_coordinate IS NOT NULL
-      AND y_coordinate IS NOT NULL
-      AND latitude IS NOT NULL
-      AND longitude IS NOT NULL
-      AND location IS NOT NULL
-)
-INSERT INTO locations (block_id, description_id, coordinate_id)
-SELECT
-    b.id, d.id, c.id
-FROM distinct_locations dl
-JOIN blocks b ON dl.block = b.block
-JOIN locations_descriptions d ON dl.location_description = d.location_description
-JOIN coordinates c ON dl.x_coordinate = c.x_coordinate
-                  AND dl.y_coordinate = c.y_coordinate
-                  AND dl.latitude     = c.latitude
-                  AND dl.longitude    = c.longitude
-                  AND dl.location     = c.location
-WHERE NOT EXISTS (
-    SELECT 1 FROM locations l2
-     WHERE l2.block_id = b.id
-       AND l2.description_id = d.id
-       AND l2.coordinate_id = c.id
-);
+-- 5) locations: arma la tupla (block_id, description_id, coordinate_id) única
+INSERT INTO locations(block_id, description_id, coordinate_id)
+SELECT DISTINCT
+    b.id AS block_id,
+    d.id AS description_id,
+    c.id AS coordinate_id
+FROM staging_cleaned s
+JOIN blocks b ON s.block = b.block
+JOIN locations_descriptions d ON s.location_description = d.location_description
+JOIN coordinates c
+     ON s.x_coordinate = c.x_coordinate
+    AND s.y_coordinate = c.y_coordinate
+    AND s.latitude     = c.latitude
+    AND s.longitude    = c.longitude
+    AND s.location     = c.location
 
--- 6) crimes
+-- 6) crimes: finalmente, inserta cada crimen referenciando crime_codes y locations
 INSERT INTO crimes (
     case_number,
     crime_date,
@@ -555,7 +546,7 @@ SELECT
     s.case_number,
     s.crime_date,
     s.iucr,
-    l.id,
+    l.id           AS location_id,
     s.arrest,
     s.domestic,
     s.beat,
@@ -563,25 +554,18 @@ SELECT
     s.ward,
     s.community_area,
     s."year",
-    s.updated_on
-FROM staging_cleaned s
-JOIN blocks b ON s.block = b.block
-JOIN locations_descriptions d ON s.location_description = d.location_description
-JOIN coordinates c ON s.x_coordinate = c.x_coordinate
-                  AND s.y_coordinate = c.y_coordinate
-                  AND s.latitude     = c.latitude
-                  AND s.longitude    = c.longitude
-                  AND s.location     = c.location
-JOIN locations l ON l.block_id = b.id
-                AND l.description_id = d.id
-                AND l.coordinate_id = c.id
-WHERE NOT EXISTS (
-    SELECT 1 FROM crimes c2
-     WHERE c2.case_number = s.case_number
-       AND c2.crime_date = s.crime_date
-       AND c2.iucr = s.iucr
-       AND c2.location_id = l.id
-);
+    TO_TIMESTAMP(s.updated_on, 'MM/DD/YYYY HH12:MI:SS AM') -- Adjust format as needed
+FROM staging s
+JOIN blocks                  b ON s.block = b.block
+JOIN locations_descriptions  d ON s.location_description = d.location_description
+JOIN coordinates             c ON s.x_coordinate = c.x_coordinate
+                              AND s.y_coordinate = c.y_coordinate
+                              AND s.latitude     = c.latitude
+                              AND s.longitude    = c.longitude
+                              AND s.location     = c.location
+JOIN locations               l ON l.block_id       = b.id
+                              AND l.description_id = d.id
+                              AND l.coordinate_id  = c.id;
 ```
 
 ---
