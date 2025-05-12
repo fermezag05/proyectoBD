@@ -285,13 +285,14 @@ ORDER BY iucr, ocurrencias DESC;
 La limpieza del dataset fue cuidadosa, sistemática y no destructiva. Se crearon respaldos y versiones limpias, se eliminaron duplicados, se evaluó la integridad espacial y semántica de los datos, y se corrigieron inconsistencias relevantes. El dataset quedó listo para análisis exploratorios, modelado, y diseño de una base de datos relacional normalizada.
 ⸻
 
-# 🧾 Documentación del Modelo de Base de Datos Normalizado
+# D: Normalización
+
 
 Este proyecto implementa un modelo relacional normalizado a partir de una tabla original de crímenes (`staging`). El objetivo fue eliminar redundancias, asegurar integridad referencial y cumplir con las formas normales hasta 4NF.
 
 ---
 
-## 📊 Dependencias Funcionales
+## Dependencias Funcionales
 
 ### `crime_codes`
 ```
@@ -330,15 +331,15 @@ id → case_number, crime_date, iucr, location_id, arrest, domestic, beat, distr
 
 ---
 
-## 🔁 Dependencias Multivaluadas
+## Dependencias Multivaluadas
 
 No existen dependencias multivaluadas en el esquema final. Cada tabla representa una sola entidad o relación, y ha sido descompuesta correctamente hasta alcanzar la **Cuarta Forma Normal (4NF)**, eliminando cualquier repetición independiente de datos.
 
 ---
 
-## 🧠 Proceso de Normalización
+## Proceso de Normalización
 
-### 🔹 Etapa Inicial (Tabla `staging`)
+### Etapa Inicial (Tabla `staging`)
 
 La tabla original contenía múltiples redundancias, como:
 
@@ -346,13 +347,13 @@ La tabla original contenía múltiples redundancias, como:
 - Información duplicada de bloques (`block`), descripciones (`location_description`) y coordenadas.
 - Violaciones a 2NF y 3NF por dependencias funcionales parciales y transitivas.
 
-### 🔸 Objetivo
+### Objetivo
 
 Reducir redundancia, evitar anomalías de actualización/eliminación, y mejorar el rendimiento y la integridad del sistema mediante un modelo 100% normalizado.
 
 ---
 
-## ✅ Formas Normales Alcanzadas
+## Formas Normales Alcanzadas
 
 ### 1NF (Primera Forma Normal)
 - Todos los atributos son atómicos.
@@ -374,7 +375,7 @@ Reducir redundancia, evitar anomalías de actualización/eliminación, y mejorar
 
 ---
 
-## 🧩 Justificación del Modelo
+## Justificación del Modelo
 
 Este modelo relacional permite:
 
@@ -385,7 +386,7 @@ Este modelo relacional permite:
 
 ---
 
-## 📌 Estructura de Tablas
+## Estructura de Tablas
 
 ```sql
 CREATE TABLE crime_codes (
@@ -441,7 +442,7 @@ CREATE TABLE crimes(
 
 ---
 
-## 📥 Proceso de Población de Datos
+## Proceso de Población de Datos
 
 ```sql
 -- 1) crime_codes
