@@ -512,20 +512,15 @@ WHERE sc.x_coordinate IS NOT NULL
   );
 
 -- 5) locations: arma la tupla (block_id, description_id, coordinate_id) única
-INSERT INTO locations(block_id, description_id, coordinate_id)
+INSERT INTO locations (block_id, description_id, coordinate_id)
 SELECT DISTINCT
     b.id AS block_id,
-    d.id AS description_id,
+    ld.id AS description_id,
     c.id AS coordinate_id
-FROM staging_cleaned s
-JOIN blocks b ON s.block = b.block
-JOIN locations_descriptions d ON s.location_description = d.location_description
-JOIN coordinates c
-     ON s.x_coordinate = c.x_coordinate
-    AND s.y_coordinate = c.y_coordinate
-    AND s.latitude     = c.latitude
-    AND s.longitude    = c.longitude
-    AND s.location     = c.location
+FROM staging_cleaned sc
+JOIN blocks b ON b.block = sc.block -- Ajusta el nombre de columna según sea necesario
+JOIN locations_descriptions ld ON ld.location_description = sc.location_description  
+JOIN coordinates c ON c.latitude = sc.latitude AND c.longitude = sc.longitude;  
 
 -- 6) crimes: finalmente, inserta cada crimen referenciando crime_codes y locations
 INSERT INTO crimes (
