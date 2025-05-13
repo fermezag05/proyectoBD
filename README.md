@@ -551,7 +551,7 @@ SELECT DISTINCT
     ld.id AS description_id,
     c.id AS coordinate_id
 FROM staging_cleaned sc
-JOIN blocks b ON b.block = sc.block -- Ajusta el nombre de columna según sea necesario
+JOIN blocks b ON b.block = sc.block 
 JOIN locations_descriptions ld ON ld.location_description = sc.location_description  
 JOIN coordinates c ON c.latitude = sc.latitude AND c.longitude = sc.longitude;  
 
@@ -743,8 +743,8 @@ WHERE coordinates.latitude IS NOT NULL AND coordinates.longitude IS NOT NULL;
 
 ## Resumen de hallazgos
 
-- **Picos horarios:** Mayor incidencia 20–23 h.  
-- **Fin de semana:** Sábado y domingo concentran más delitos.  
+- **Picos horarios:** Mayor incidencia 0 h.  
+- **Fin de semana:** Viernes, Sábado y domingo concentran más delitos.  
 - **Tipos de delito:** ‘ROBBERY’ y ‘ASSAULT’ con altas tasas de arresto.  
 - **Tendencia anual:** Incremento/decrecimiento según datos.  
 - **Áreas domésticas:** Comunidades con más delitos familiares.  
