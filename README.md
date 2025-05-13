@@ -630,7 +630,9 @@ GROUP BY cc.primary_type
 ORDER BY tasa_arresto_pct DESC;
 ```
 *Interpretación:* Delitos con mayor probabilidad de arresto para evaluar eficacia policial y mejorar protocolos en los casos con baja tasa.
-![output](https://github.com/user-attachments/assets/d5919093-0439-4a1b-ae6d-20b756c41065)
+*(Visualización: tipo_crimen vs probabilidad arresto)*
+![output](https://github.com/user-attachments/assets/4eedb87c-d4c0-4591-b18c-78592e902fa3)
+
 
 ---
 
