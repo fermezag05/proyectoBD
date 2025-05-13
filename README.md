@@ -637,7 +637,7 @@ GROUP BY EXTRACT(DOW FROM crime_date)
 ORDER BY EXTRACT(DOW FROM crime_date);
 ```
 *Interpretación:* Fines de semana, especialmente viernes, concentran más delitos. Guiar refuerzos policiales en esos días.
-*(Visualización: total_incidentes vs dia de la semana)*
+
 ![output](https://github.com/user-attachments/assets/f8f4b5eb-4e05-4b28-bdba-7e65d369cf97)
 
 ---
