@@ -1,5 +1,0 @@
-pandas==2.2.3
-geopandas==1.0.1
-shapely==2.1.0
-plotly==6.0.1
-SQLAlchemy==2.0.40
