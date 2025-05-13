@@ -589,7 +589,8 @@ ORDER BY hora;
 
 *Interpretación:* Pico de delitos en las horas nocturnas (20–23 h). Útil para asignar patrullas y campañas de prevención.
 
-*(Gráfico de barras: total_incidentes vs hora)*
+*(Visualización: total_incidentes vs hora)*
+![output](https://github.com/user-attachments/assets/cd49b384-c571-46fb-b6ca-d102679b140e)
 
 ---
 
