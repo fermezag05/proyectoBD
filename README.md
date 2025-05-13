@@ -613,12 +613,12 @@ ORDER BY EXTRACT(DOW FROM crime_date);
 **Resultado (ejemplo):**  
 | dia_semana | total_incidentes |
 |------------|------------------|
-| Sunday     | 5432             |
-| Monday     | 6120             |
+| Friday     | 29982            |
+| Saturday   | 29537            |
 | …          | …                |
-| Saturday   | 7345             |
+| Thursday   | 27935            |
 
-*Interpretación:* Fines de semana, especialmente sábado, concentran más delitos. Guiar refuerzos policiales en esos días.
+*Interpretación:* Fines de semana, especialmente viernes, concentran más delitos. Guiar refuerzos policiales en esos días.
 
 *(Visualización: total_incidentes vs dia de la semana)*
 ![output](https://github.com/user-attachments/assets/f8f4b5eb-4e05-4b28-bdba-7e65d369cf97)
