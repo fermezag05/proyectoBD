@@ -655,7 +655,7 @@ JOIN crime_codes cc ON c.iucr = cc.iucr
 GROUP BY cc.primary_type
 ORDER BY tasa_arresto_pct DESC;
 ```
-*Interpretación:* Indecencia pública y .
+*Interpretación:* Indecencia pública y violaciones a la ley por licor tienen una probabilidad del 100% de arresto, seguido por prostitución y narcóticos con alrededor de 98% de probabilidad de arresto.
 
 ![output](https://github.com/user-attachments/assets/4eedb87c-d4c0-4591-b18c-78592e902fa3)
 
