@@ -596,11 +596,19 @@ ORDER BY hora;
 ### 2. Crímenes por día de la semana
 ```sql
 SELECT
-  TO_CHAR(crime_date, 'Day') AS dia_semana,
+  CASE EXTRACT(DOW FROM crime_date)
+    WHEN 0 THEN 'Domingo'
+    WHEN 1 THEN 'Lunes'
+    WHEN 2 THEN 'Martes'
+    WHEN 3 THEN 'Miércoles'
+    WHEN 4 THEN 'Jueves'
+    WHEN 5 THEN 'Viernes'
+    WHEN 6 THEN 'Sábado'
+  END AS dia_semana,
   COUNT(*) AS total_incidentes
 FROM crimes
-GROUP BY dia_semana
-ORDER BY DATE_PART('dow', crime_date);
+GROUP BY EXTRACT(DOW FROM crime_date)
+ORDER BY EXTRACT(DOW FROM crime_date);
 ```
 **Resultado (ejemplo):**  
 | dia_semana | total_incidentes |
@@ -612,9 +620,10 @@ ORDER BY DATE_PART('dow', crime_date);
 
 *Interpretación:* Fines de semana, especialmente sábado, concentran más delitos. Guiar refuerzos policiales en esos días.
 
-*(Gráfico de líneas o barras)*
+*(Visualización: total_incidentes vs dia de la semana)*
+![output](https://github.com/user-attachments/assets/f8f4b5eb-4e05-4b28-bdba-7e65d369cf97)
 
----
+--
 
 ### 3. Tasa de arresto por tipo de crimen
 ```sql
