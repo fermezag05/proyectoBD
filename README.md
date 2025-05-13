@@ -613,8 +613,8 @@ FROM crimes
 GROUP BY hora
 ORDER BY hora;
 ```
-*Interpretación:* Pico de delitos en las horas nocturnas (20–23 h). Útil para asignar patrullas y campañas de prevención.
-*(Visualización: total_incidentes vs hora)*
+*Interpretación:* Pico de delitos en la hora nocturna de 0 h. Útil para asignar patrullas y campañas de prevención.
+
 ![output](https://github.com/user-attachments/assets/cd49b384-c571-46fb-b6ca-d102679b140e)
 
 ---
