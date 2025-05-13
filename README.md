@@ -700,7 +700,7 @@ ORDER BY mes;
 *Interpretación:* La curva acumulada muestra la progresión total de delitos; útil para proyecciones y comparaciones históricas.
 
 ---
-### 6. Crimenes por distrito 
+### 7. Crimenes por distrito 
 
 ```sql
 
