@@ -63,3 +63,11 @@ SELECT
 FROM crimes
 GROUP BY mes
 ORDER BY mes;
+--7 
+
+SELECT crimes.id, coordinates.latitude, coordinates.longitude
+FROM crimes
+LEFT JOIN locations ON locations.id = crimes.location_id
+LEFT JOIN coordinates ON coordinates.id = locations.coordinate_id
+WHERE coordinates.latitude IS NOT NULL AND coordinates.longitude IS NOT NULL;
+
