@@ -591,6 +591,7 @@ ORDER BY hora;
 *(Visualización: total_incidentes vs hora)*
 ![output](https://github.com/user-attachments/assets/cd49b384-c571-46fb-b6ca-d102679b140e)
 
+---
 
 ### 2. Crímenes por día de la semana
 ```sql
@@ -613,6 +614,7 @@ ORDER BY EXTRACT(DOW FROM crime_date);
 *(Visualización: total_incidentes vs dia de la semana)*
 ![output](https://github.com/user-attachments/assets/f8f4b5eb-4e05-4b28-bdba-7e65d369cf97)
 
+---
 
 ### 3. Tasa de arresto por tipo de crimen
 ```sql
@@ -627,14 +629,8 @@ JOIN crime_codes cc ON c.iucr = cc.iucr
 GROUP BY cc.primary_type
 ORDER BY tasa_arresto_pct DESC;
 ```
-**Resultado (ejemplo):**  
-| primary_type | tasa_arresto_pct |
-|--------------|------------------|
-| ROBBERY      | 78.45            |
-| ASSAULT      | 65.12            |
-| …            | …                |
-
 *Interpretación:* Delitos con mayor probabilidad de arresto para evaluar eficacia policial y mejorar protocolos en los casos con baja tasa.
+![output](https://github.com/user-attachments/assets/d5919093-0439-4a1b-ae6d-20b756c41065)
 
 ---
 
@@ -651,13 +647,6 @@ FROM crimes c
 GROUP BY c."year"
 ORDER BY c."year";
 ```
-**Resultado (ejemplo):**  
-| year | total_crimes | pct_sobre_total |
-|------|--------------|-----------------|
-| 2010 | 125000       | 5.20            |
-| 2011 | 130500       | 5.43            |
-| …    | …            | …               |
-
 *Interpretación:* Tendencias a lo largo del tiempo; permite evaluar el impacto de políticas públicas o eventos sociales.
 
 *(Gráfico de líneas: total_crimes vs year)*
