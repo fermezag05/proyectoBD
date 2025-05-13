@@ -1,10 +1,11 @@
+---1
 SELECT
   DATE_PART('hour', crime_date) AS hora,
   COUNT(*) AS total_incidentes
 FROM crimes
 GROUP BY hora
 ORDER BY hora;
-
+--2
 SELECT
   CASE EXTRACT(DOW FROM crime_date)
     WHEN 0 THEN 'Domingo'
@@ -19,7 +20,7 @@ SELECT
 FROM crimes
 GROUP BY EXTRACT(DOW FROM crime_date)
 ORDER BY EXTRACT(DOW FROM crime_date);
-
+---3
 SELECT
   cc.primary_type,
   ROUND(
@@ -30,7 +31,7 @@ FROM crimes c
 JOIN crime_codes cc ON c.iucr = cc.iucr
 GROUP BY cc.primary_type
 ORDER BY tasa_arresto_pct DESC;
-
+---4
 SELECT
   c."year",
   COUNT(*) AS total_crimes,
@@ -41,7 +42,7 @@ SELECT
 FROM crimes c
 GROUP BY c."year"
 ORDER BY c."year";
-
+---5
 SELECT
   c.community_area,
   COUNT(*) FILTER (WHERE c.domestic) AS domesticos,
@@ -54,7 +55,7 @@ FROM crimes c
 GROUP BY c.community_area
 ORDER BY pct_domesticos DESC
 LIMIT 10;
-
+---6
 SELECT
   DATE_TRUNC('month', crime_date) AS mes,
   COUNT(*) AS mensual,
