@@ -706,7 +706,7 @@ LIMIT 10;
 
 ---
 
-### 6. Tendencia acumulada de crímenes (función de ventana)
+### 6. Tendencia acumulada de crímenes
 ```sql
 SELECT
   DATE_TRUNC('month', crime_date) AS mes,
@@ -741,7 +741,7 @@ WHERE coordinates.latitude IS NOT NULL AND coordinates.longitude IS NOT NULL;
 
 ---
 
-## 📈 Resumen de hallazgos
+## Resumen de hallazgos
 
 - **Picos horarios:** Mayor incidencia 20–23 h.  
 - **Fin de semana:** Sábado y domingo concentran más delitos.  
