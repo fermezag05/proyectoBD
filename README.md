@@ -19,27 +19,27 @@ Nuestro dataset contiene información sobre los crímenes cometidos en la ciudad
 
 | Atributo              | Descripción                                                                                         | Tipo         |
 |-----------------------|-----------------------------------------------------------------------------------------------------|--------------|
-| ID                    | Identificador único del reporte                                                                     | Numérico     |
-| Case Number           | Número exclusivo del incidente del Departamento de Policía de Chicago                              | Texto        |
+| ID                    | Identificador único del reporte                                                                     | Numerical    |
+| Case Number           | Número exclusivo del incidente del Departamento de Policía de Chicago                              | Text         |
 | Date                  | Fecha del incidente                                                                                 | Timestamp    |
-| Block                 | Dirección parcialmente redactada donde ocurrió el incidente                                         | Texto        |
-| IUCR                  | Código uniforme de denuncia de delitos de Illinois                                                  | Texto        |
-| Primary Type          | Descripción principal del código IUCR                                                               | Texto        |
-| Description           | Subcategoría de la descripción principal                                                            | Texto        |
-| Location Description  | Descripción del lugar del incidente                                                                 | Texto        |
-| Arrest                | Indica si hubo arresto                                                                              | Booleano     |
-| Domestic              | Indica si estuvo relacionado con violencia doméstica                                                | Booleano     |
-| Beat                  | Área geográfica policial más pequeña donde ocurrió el incidente                                     | Texto        |
-| District              | Distrito policial del incidente                                                                     | Texto        |
-| Community Area        | Área comunitaria donde ocurrió el incidente (Chicago tiene 77)                                      | Texto        |
-| FBI Code              | Clasificación de delitos según el FBI                                                               | Texto        |
-| X Coordinate          | Coordenada X del lugar del incidente                                                                | Numérico     |
-| Y Coordinate          | Coordenada Y del lugar del incidente                                                                | Numérico     |
-| Year                  | Año del incidente                                                                                   | Numérico     |
+| Block                 | Dirección parcialmente redactada donde ocurrió el incidente                                         | Text         |
+| IUCR                  | Código uniforme de denuncia de delitos de Illinois                                                  | Text         |
+| Primary Type          | Descripción principal del código IUCR                                                               | Text         |
+| Description           | Subcategoría de la descripción principal                                                            | Text         |
+| Location Description  | Descripción del lugar del incidente                                                                 | Text         |
+| Arrest                | Indica si hubo arresto                                                                              | Boolean      |
+| Domestic              | Indica si estuvo relacionado con violencia doméstica                                                | Boolean      |
+| Beat                  | Área geográfica policial más pequeña donde ocurrió el incidente                                     | Text         |
+| District              | Distrito policial del incidente                                                                     | Text         |
+| Community Area        | Área comunitaria donde ocurrió el incidente (Chicago tiene 77)                                      | Text         |
+| FBI Code              | Clasificación de delitos según el FBI                                                               | Text         |
+| X Coordinate          | Coordenada X del lugar del incidente                                                                | Number       |
+| Y Coordinate          | Coordenada Y del lugar del incidente                                                                | Number       |
+| Year                  | Año del incidente                                                                                   | Number       |
 | Updated On            | Día en que se actualizó el reporte                                                                  | Timestamp    |
-| Latitude              | Latitud del lugar del incidente                                                                     | Numérico     |
-| Longitude             | Longitud del lugar del incidente                                                                    | Numérico     |
-| Location              | Ubicación en formato geográfico (para mapas y análisis espacial)                                    | Punto        |
+| Latitude              | Latitud del lugar del incidente                                                                     | Number       |
+| Longitude             | Longitud del lugar del incidente                                                                    | Number       |
+| Location              | Ubicación en formato geográfico (para mapas y análisis espacial)                                    | Point        |
 
 ### Objetivo del Proyecto
 
