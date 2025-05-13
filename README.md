@@ -3,7 +3,7 @@ Proyecto Bases de Datos
 
 PROYECTO EQUIPO 3
 
-# Parte A: Introducción al conjunto de datos y al problema a estudiar considerando aspectos éticos del conjunto de datos empleado
+# A: Introducción al conjunto de datos y al problema a estudiar considerando aspectos éticos del conjunto de datos empleado
 
 
 Nuestros datos contienen información sobre los crímenes que se han cometido en la ciudad de Chicago a partir del 2021. Estos datos incluyen información relevante sobre los crímenes, así como: fecha, tipo de crimen, si sucede un arresto, ubicación del crimen y más. Los datos fueron extraídos del Chicago Data Portal.
@@ -43,7 +43,7 @@ Número de atributos que se usarán: 22
 El objetivo de nuestro equipo es identificar patrones en la incidencia delictiva en Chicago mediante el estudio de variables como ubicación, tipo de crimen y evolución temporal. El equipo utilizará el set de datos para analizar tendencias delictivas en distintas áreas comunitarias y distritos policiales, evaluar la relación entre la ubicación y el tipo de delito, examinar la frecuencia de arrestos y detectar cambios temporales en la criminalidad. Con esta información, podremos determinar estrategias potenciales para reducir el crimen en Chicago.
 	Trabajar con datos tan delicados así como lo es la criminalidad en una ciudad conlleva a una gran responsabilidad de no utilizar ninguna información que obtengamos de trabajar los datos para perjudicar a alguien. Además, debemos de reconocer nuestras fuentes de información y no presentarla como propia.
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-# Parte B: Carga inicial y análisis preliminar
+# B: Carga inicial y análisis preliminar
 
 
 Cómo cargar los datos
@@ -104,7 +104,8 @@ ALTER TABLE staging DROP COLUMN crime_date;
 
 ALTER TABLE staging RENAME COLUMN crime_timestamp TO crime_date;
 
-# Parte C: Limpieza de Datos
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# C: Limpieza de Datos
 
 Para garantizar la calidad del dataset y su adecuación al objetivo del proyecto, se llevaron a cabo las siguientes tareas de limpieza y validación sobre la tabla `staging`.
 
