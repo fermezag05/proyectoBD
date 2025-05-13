@@ -735,7 +735,7 @@ WHERE coordinates.latitude IS NOT NULL AND coordinates.longitude IS NOT NULL;
 - **Tendencia anual:** Incremento/decrecimiento según datos.  
 - **Áreas domésticas:** Comunidades con más delitos familiares.  
 - **Acumulado mensual:** Permite medir la carga histórica.
-- **Crimenes por distrito:** Permite medir informar que distritos tienen la mayor cantidad de crimenes.
+- **Crimenes por distrito:** Permite medir informar que distritos tienen la mayor cantidad de crimenes(Encontramos el distrito 6 es el que tiene mayor numero de delitos y el 20 la menor cantidad).
 
 Estos análisis proporcionan una visión integral para la toma de decisiones en seguridad pública y la optimización de recursos.  
 
