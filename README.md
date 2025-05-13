@@ -3,6 +3,9 @@ Proyecto Bases de Datos
 
 PROYECTO EQUIPO 3
 
+# Parte A: Introducción al conjunto de datos y al problema a estudiar considerando aspectos éticos del conjunto de datos empleado
+
+
 Nuestros datos contienen información sobre los crímenes que se han cometido en la ciudad de Chicago a partir del 2021. Estos datos incluyen información relevante sobre los crímenes, así como: fecha, tipo de crimen, si sucede un arresto, ubicación del crimen y más. Los datos fueron extraídos del Chicago Data Portal.
 	Nuestros datos son recolectados por el sistema CLEAR (Citizen Law Enforcement Analysis and Reporting) del departamento de policía de Chicago. El propósito de la recolección de estos datos es para mantener un registro sobre los crímenes que ocurren en la ciudad de Chicago. Los datos se pueden obtener en el Chicago Data Portal: https://data.cityofchicago.org/Public-Safety/Crimes-2021/dwme-t96c/about_data
 Nota: Realizamos este proyecto con la base de datos adjunta en el zip, ya que sabíamos que junto con las actualizaciones de los datos podrían venir cambios, por lo que decisimos utilizar todos la misma versión).
@@ -38,7 +41,10 @@ Número de atributos que se usarán: 22
 
 
 El objetivo de nuestro equipo es identificar patrones en la incidencia delictiva en Chicago mediante el estudio de variables como ubicación, tipo de crimen y evolución temporal. El equipo utilizará el set de datos para analizar tendencias delictivas en distintas áreas comunitarias y distritos policiales, evaluar la relación entre la ubicación y el tipo de delito, examinar la frecuencia de arrestos y detectar cambios temporales en la criminalidad. Con esta información, podremos determinar estrategias potenciales para reducir el crimen en Chicago.
-	Trabajar con datos tan delicados así como lo es la criminalidad en una ciudad conlleva a una gran responsabilidad de no utilizar ninguna información que obtengamos de trabajar los datos para perjudicar a alguien. Además, debemos de reconocer nuestras fuentes de información y no presentarla como propia. 
+	Trabajar con datos tan delicados así como lo es la criminalidad en una ciudad conlleva a una gran responsabilidad de no utilizar ninguna información que obtengamos de trabajar los datos para perjudicar a alguien. Además, debemos de reconocer nuestras fuentes de información y no presentarla como propia.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Parte B: Carga inicial y análisis preliminar
+
 
 Cómo cargar los datos
 
@@ -283,8 +289,8 @@ ORDER BY iucr, ocurrencias DESC;
 ## Conclusión
 
 La limpieza del dataset fue cuidadosa, sistemática y no destructiva. Se crearon respaldos y versiones limpias, se eliminaron duplicados, se evaluó la integridad espacial y semántica de los datos, y se corrigieron inconsistencias relevantes. El dataset quedó listo para análisis exploratorios, modelado, y diseño de una base de datos relacional normalizada.
-⸻
 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # D: Normalización
 
 
@@ -564,8 +570,9 @@ JOIN locations               l ON l.block_id       = b.id
                               AND l.description_id = d.id
                               AND l.coordinate_id  = c.id;
 ```
-
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ## E) Análisis de Datos a través de consultas SQL y creación de atributos analíticos
+
 
 A continuación se presentan consultas SQL empleando el esquema normalizado, seguidas de los resultados principales (tabulares y/o gráficos) y su interpretación. Estas consultas crean atributos enriquecidos útiles para análisis avanzados mediante filtros, agrupaciones, composiciones y funciones de ventana.
 
@@ -578,20 +585,10 @@ FROM crimes
 GROUP BY hora
 ORDER BY hora;
 ```
-**Resultado (ejemplo):**  
-| hora | total_incidentes |
-|------|------------------|
-| 0    | 1234             |
-| 1    | 950              |
-| …    | …                |
-| 23   | 1800             |
-
 *Interpretación:* Pico de delitos en las horas nocturnas (20–23 h). Útil para asignar patrullas y campañas de prevención.
-
 *(Visualización: total_incidentes vs hora)*
 ![output](https://github.com/user-attachments/assets/cd49b384-c571-46fb-b6ca-d102679b140e)
 
----
 
 ### 2. Crímenes por día de la semana
 ```sql
@@ -610,20 +607,10 @@ FROM crimes
 GROUP BY EXTRACT(DOW FROM crime_date)
 ORDER BY EXTRACT(DOW FROM crime_date);
 ```
-**Resultado (ejemplo):**  
-| dia_semana | total_incidentes |
-|------------|------------------|
-| Friday     | 29982            |
-| Saturday   | 29537            |
-| …          | …                |
-| Thursday   | 27935            |
-
 *Interpretación:* Fines de semana, especialmente viernes, concentran más delitos. Guiar refuerzos policiales en esos días.
-
 *(Visualización: total_incidentes vs dia de la semana)*
 ![output](https://github.com/user-attachments/assets/f8f4b5eb-4e05-4b28-bdba-7e65d369cf97)
 
---
 
 ### 3. Tasa de arresto por tipo de crimen
 ```sql
