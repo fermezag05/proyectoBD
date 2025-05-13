@@ -3,46 +3,60 @@ Proyecto Bases de Datos
 
 PROYECTO EQUIPO 3
 
-# A: Introducción al conjunto de datos y al problema a estudiar considerando aspectos éticos del conjunto de datos empleado
+## Parte A: Descripción del Proyecto
 
+### Datos Utilizados
 
-Nuestros datos contienen información sobre los crímenes que se han cometido en la ciudad de Chicago a partir del 2021. Estos datos incluyen información relevante sobre los crímenes, así como: fecha, tipo de crimen, si sucede un arresto, ubicación del crimen y más. Los datos fueron extraídos del Chicago Data Portal.
-	Nuestros datos son recolectados por el sistema CLEAR (Citizen Law Enforcement Analysis and Reporting) del departamento de policía de Chicago. El propósito de la recolección de estos datos es para mantener un registro sobre los crímenes que ocurren en la ciudad de Chicago. Los datos se pueden obtener en el Chicago Data Portal: https://data.cityofchicago.org/Public-Safety/Crimes-2021/dwme-t96c/about_data
-Nota: Realizamos este proyecto con la base de datos adjunta en el zip, ya que sabíamos que junto con las actualizaciones de los datos podrían venir cambios, por lo que decisimos utilizar todos la misma versión).
-Los datos se actualizan de manera diaria, permitiéndonos utilizar datos sobre crímenes muy recientes (se bajó el csv de la última actualización de la base de datos el día 16 de Abril del 2025). 
+Nuestro dataset contiene información sobre los crímenes cometidos en la ciudad de Chicago a partir del año 2021. Estos datos incluyen variables relevantes como: fecha, tipo de crimen, si hubo arresto, ubicación y más.
 
-Información sobre la base de datos:
-Número de tuplas: 209,000
-Número de atributos que se usarán: 22
+- **Fuente de datos**: [Chicago Data Portal](https://data.cityofchicago.org/Public-Safety/Crimes-2021/dwme-t96c/about_data)
+- **Sistema de recolección**: CLEAR (Citizen Law Enforcement Analysis and Reporting) del Departamento de Policía de Chicago
+- **Fecha de descarga del CSV**: 14 de febrero de 2025
+- **Número de tuplas**: 209,000
+- **Número de atributos utilizados**: 22
 
-| Nombre                | Descripción                                                                                                                                     | Tipo de Dato       |
-|-----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|--------------------|
-| ID                    | Es el identificador único del reporte.                                                                                                          | BIGINT          |
-| Case Number           | El número de división de registros del Departamento de Policía de Chicago, que es exclusivo del incidente.                                     | VARCHAR            |
-| Date                  | Fecha en que ocurrió el incidente                                                                                                               | TEXT               |
-| Block                 | La dirección parcialmente redactada donde ocurrió el incidente, colocándola en el mismo bloque que la dirección real.                          | VARCHAR            |
-| IUCR                  | El código uniforme de denuncia de delitos de Illinois. Esto está directamente relacionado con el tipo principal y la descripción.              | VARCHAR            |
-| Primary Type          | La descripción principal del código IUCR.                                                                                                       | VARCHAR            |
-| Description           | La descripción secundaria del código IUCR, una subcategoría de la descripción primaria.                                                         | VARCHAR            |
-| Location Description  | Descripción del lugar donde ocurrió el incidente.                                                                                               | VARCHAR            |
-| Arrest                | Indica si se realizó un arresto.                                                                                                                | BOOLEAN            |
-| Domestic              | Indica si el incidente estuvo relacionado con el hogar según lo define la Ley de Violencia Doméstica de Illinois.                              | BOOLEAN            |
-| Beat                  | Indica donde ocurrió el incidente. Un beat es el área geográfica policial más pequeña.                                                          | BIGINT             |
-| District              | Indica el distrito policial donde ocurrió el incidente.                                                                                         | BIGINT             |
-| Community Area        | Indica el área comunitaria donde ocurrió el incidente. Chicago tiene 77 áreas comunitarias.                                                     | BIGINT             |
-| FBI Code              | Indica la clasificación de delitos como se describe en el Sistema Nacional de Informes Basados en Incidentes del FBI.                          | VARCHAR            |
-| X Coordinate          | La coordenada x del lugar donde ocurrió el incidente.                                                                                           | BIGINT             |
-| Y Coordinate          | La coordenada y del lugar donde ocurrió el incidente.                                                                                           | BIGINT             |
-| Year                  | Año en el que ocurrió el incidente.                                                                                                             | BIGINT             |
-| Updated On            | Día en el que se actualizó el reporte.                                                                                                          | VARCHAR            |
-| Latitude              | La latitud del lugar donde ocurrió el incidente.                                                                                                | DOUBLE PRECISION   |
-| Longitude             | La longitud del lugar donde ocurrió el incidente.                                                                                               | DOUBLE PRECISION   |
-| Location              | La ubicación donde ocurrió el incidente en un formato que permita la creación de mapas y otras operaciones geográficas en este portal de datos. | VARCHAR            |
+### Atributos del Dataset
 
+| Atributo              | Descripción                                                                                         | Tipo         |
+|-----------------------|-----------------------------------------------------------------------------------------------------|--------------|
+| ID                    | Identificador único del reporte                                                                     | Numérico     |
+| Case Number           | Número exclusivo del incidente del Departamento de Policía de Chicago                              | Texto        |
+| Date                  | Fecha del incidente                                                                                 | Timestamp    |
+| Block                 | Dirección parcialmente redactada donde ocurrió el incidente                                         | Texto        |
+| IUCR                  | Código uniforme de denuncia de delitos de Illinois                                                  | Texto        |
+| Primary Type          | Descripción principal del código IUCR                                                               | Texto        |
+| Description           | Subcategoría de la descripción principal                                                            | Texto        |
+| Location Description  | Descripción del lugar del incidente                                                                 | Texto        |
+| Arrest                | Indica si hubo arresto                                                                              | Booleano     |
+| Domestic              | Indica si estuvo relacionado con violencia doméstica                                                | Booleano     |
+| Beat                  | Área geográfica policial más pequeña donde ocurrió el incidente                                     | Texto        |
+| District              | Distrito policial del incidente                                                                     | Texto        |
+| Community Area        | Área comunitaria donde ocurrió el incidente (Chicago tiene 77)                                      | Texto        |
+| FBI Code              | Clasificación de delitos según el FBI                                                               | Texto        |
+| X Coordinate          | Coordenada X del lugar del incidente                                                                | Numérico     |
+| Y Coordinate          | Coordenada Y del lugar del incidente                                                                | Numérico     |
+| Year                  | Año del incidente                                                                                   | Numérico     |
+| Updated On            | Día en que se actualizó el reporte                                                                  | Timestamp    |
+| Latitude              | Latitud del lugar del incidente                                                                     | Numérico     |
+| Longitude             | Longitud del lugar del incidente                                                                    | Numérico     |
+| Location              | Ubicación en formato geográfico (para mapas y análisis espacial)                                    | Punto        |
 
-El objetivo de nuestro equipo es identificar patrones en la incidencia delictiva en Chicago mediante el estudio de variables como ubicación, tipo de crimen y evolución temporal. El equipo utilizará el set de datos para analizar tendencias delictivas en distintas áreas comunitarias y distritos policiales, evaluar la relación entre la ubicación y el tipo de delito, examinar la frecuencia de arrestos y detectar cambios temporales en la criminalidad. Con esta información, podremos determinar estrategias potenciales para reducir el crimen en Chicago.
-	Trabajar con datos tan delicados así como lo es la criminalidad en una ciudad conlleva a una gran responsabilidad de no utilizar ninguna información que obtengamos de trabajar los datos para perjudicar a alguien. Además, debemos de reconocer nuestras fuentes de información y no presentarla como propia.
- 
+### Objetivo del Proyecto
+
+El objetivo del equipo es **identificar patrones en la incidencia delictiva en Chicago**, analizando:
+
+- Tendencias delictivas en distintas áreas comunitarias y distritos policiales
+- Relación entre ubicación y tipo de delito
+- Frecuencia de arrestos
+- Cambios temporales en la criminalidad
+
+Esto permitirá **proponer estrategias para reducir el crimen** en la ciudad.
+
+### Consideraciones Éticas
+
+- Se debe mantener responsabilidad ética al trabajar con datos sensibles.
+- No se utilizará la información para perjudicar a terceros.
+- Se respetarán las fuentes originales de los datos y se dará el crédito correspondiente.
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # B: Carga inicial y análisis preliminar
 
