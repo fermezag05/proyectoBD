@@ -700,6 +700,20 @@ ORDER BY mes;
 *Interpretación:* La curva acumulada muestra la progresión total de delitos; útil para proyecciones y comparaciones históricas.
 
 ---
+### 6. Crimenes por distrito 
+
+```sql
+
+SELECT crimes.id, coordinates.latitude, coordinates.longitude
+FROM crimes
+LEFT JOIN locations ON locations.id = crimes.location_id
+LEFT JOIN coordinates ON coordinates.id = locations.coordinate_id
+WHERE coordinates.latitude IS NOT NULL AND coordinates.longitude IS NOT NULL;
+
+```
+![image](https://github.com/user-attachments/assets/0e5b5c42-a6b2-46ad-96fa-181da84896fc)
+
+---
 
 ## 📈 Resumen de hallazgos
 
@@ -709,6 +723,7 @@ ORDER BY mes;
 - **Tendencia anual:** Incremento/decrecimiento según datos.  
 - **Áreas domésticas:** Comunidades con más delitos familiares.  
 - **Acumulado mensual:** Permite medir la carga histórica.
+- **Crimenes por distrito:** Permite medir informar que distritos tienen la mayor cantidad de crimenes.
 
 Estos análisis proporcionan una visión integral para la toma de decisiones en seguridad pública y la optimización de recursos.  
 
