@@ -565,7 +565,6 @@ JOIN locations               l ON l.block_id       = b.id
                               AND l.coordinate_id  = c.id;
 ```
 
----E
 ## E) Análisis de Datos a través de consultas SQL y creación de atributos analíticos
 
 A continuación se presentan consultas SQL empleando el esquema normalizado, seguidas de los resultados principales (tabulares y/o gráficos) y su interpretación. Estas consultas crean atributos enriquecidos útiles para análisis avanzados mediante filtros, agrupaciones, composiciones y funciones de ventana.
