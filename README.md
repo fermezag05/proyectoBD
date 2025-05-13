@@ -492,7 +492,8 @@ WHERE sc.iucr IS NOT NULL
     SELECT 1
       FROM crime_codes cc
      WHERE cc.iucr = sc.iucr
-  );
+  )
+ON CONFLICT (iucr) DO NOTHING;
 
 
 -- 2) blocks
