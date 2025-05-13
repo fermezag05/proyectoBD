@@ -90,9 +90,12 @@ Por último, carga la información utilizando el siguiente comando en SQL Shell:
 
 \copy staging(id, case_number, crime_date, block, iucr, primary_type, description, location_description, arrest, domestic, beat, district, ward, community_area, fbi_code, x_coordinate, y_coordinate, year, updated_on, latitude, longitude, location) FROM '/.../Crimes_-_2021_20250416.csv' WITH (FORMAT csv, HEADER true, DELIMITER ',');
 
-Es importante tener en cuenta que el texto dentro de las comillas simples ('...') corresponde a la ruta completa del archivo .csv. Esta ruta varía según la computadora. En Windows, una forma de obtenerla es haciendo clic derecho sobre el archivo y seleccionando “Copiar como ruta”. Además, recuerda que en SQL, los caracteres \ deben ser reemplazados por /.
+Es importante tener en cuenta que el texto dentro de las comillas simples ('...') corresponde a la ruta completa del archivo .csv. Esta ruta varía según la computadora. En Windows, una forma de obtenerla es haciendo clic derecho sobre el archivo y seleccionando “Copiar como ruta”. Además, recuerda que en SQL, los caracteres \ deben ser reemplazados por /. Nuestra recomendación es instalar todos los archivos del proyecto en el mismo lugar. Si ese es el caso, entonces es importante guardar esta cadena en algún lugar donde se pueda copiar y pegar de manera fácil porque se puede usar para ejecutar los archivos de SQL usando la terminal en lugar de manualmente ejecutarlos en un editor. Es importante recordar que los puntos suspensivos (…) son para indicar que eso debe de ser reemplazado con la dirección del archivo de donde se guardó. 
 
-Una vez realizado este proceso, los datos estarán correctamente cargados en la base de datos. El siguiente paso será abrirla con un entorno de desarrollo para SQL; en este caso, utilizaremos TablePlus.
+El comando para el script de la parte B es el siguiente:
+\i  …\EntregaB.sql
+
+Una vez realizado este proceso, los datos estarán correctamente cargados en la base de datos. El siguiente paso será abrirla con un entorno de desarrollo para SQL; en este caso, utilizaremos TablePlus. Es importante notar que si se ejecuta el archivo a traves de la terminal, no es necesario ejecutar manualmente con tableplus.
 
 Por último, realizamos una modificación a la tabla para convertir crime_date a un timestamp. Dicha modificación se hace ejecutando el siguiente código:
 
@@ -109,6 +112,9 @@ ALTER TABLE staging RENAME COLUMN crime_timestamp TO crime_date;
 # C: Limpieza de Datos
 
 Para garantizar la calidad del dataset y su adecuación al objetivo del proyecto, se llevaron a cabo las siguientes tareas de limpieza y validación sobre la tabla `staging`.
+
+El comando para el script de la parte C es el siguiente:
+\i  …\limpieza(Entrega C).sql
 
 ---
 
@@ -297,6 +303,9 @@ La limpieza del dataset fue cuidadosa, sistemática y no destructiva. Se crearon
 
 
 Este proyecto implementa un modelo relacional normalizado a partir de una tabla original de crímenes (`staging`). El objetivo fue eliminar redundancias, asegurar integridad referencial y cumplir con las formas normales hasta 4NF.
+
+El comando para el script de la parte D es el siguiente:
+\i  …\entregaNormaliD.sql
 
 ---
 
@@ -577,6 +586,9 @@ JOIN locations               l ON l.block_id       = b.id
 
 
 A continuación se presentan consultas SQL empleando el esquema normalizado, seguidas de los resultados principales (tabulares y/o gráficos) y su interpretación. Estas consultas crean atributos enriquecidos útiles para análisis avanzados mediante filtros, agrupaciones, composiciones y funciones de ventana.
+
+El comando para el script de la parte E es el siguiente:
+\i …\AnalisisDeDatos(EntregaE).sql
 
 ### 1. Distribución de crímenes por hora del día
 ```sql
