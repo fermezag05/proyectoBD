@@ -736,7 +736,7 @@ WHERE coordinates.latitude IS NOT NULL AND coordinates.longitude IS NOT NULL;
 
 - **Picos horarios:** Mayor incidencia 0 h.  
 - **Fin de semana:** Viernes, Sábado y domingo concentran más delitos.  
-- **Tipos de delito:** ‘ROBBERY’ y ‘ASSAULT’ con altas tasas de arresto.  
+- **Tipos de delito:**  Indecencia pública, violaciones a la ley por licor, prostitución y narcóticos tienen tasas de arresto de 100% las primeras dos y alrededor de 98% las segundas dos, respectivamente.
 - **Tendencia anual:** Incremento/decrecimiento según datos.  
 - **Áreas domésticas:** Comunidades con más delitos familiares.  
 - **Acumulado mensual:** Permite medir la carga histórica.
