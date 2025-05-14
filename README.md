@@ -387,7 +387,7 @@ La tabla original contenía múltiples redundancias, como:
 
 ### Objetivo
 
-Reducir redundancia, evitar anomalías de actualización/eliminación, y mejorar el rendimiento y la integridad del sistema mediante un modelo 100% normalizado.
+Reducir redundancia, evitar anomalías de actualización/eliminación, y mejorar el rendimiento y la integridad del sistema mediante un modelo normalizado.
 
 ---
 
