@@ -179,9 +179,7 @@ WHERE id IN (
 ---
 
 ## 3. Revisión de consistencia en `primary_type`
-SELECT DISTINCT primary_type
-FROM staging
-ORDER BY primary_type;
+
 Se inspeccionaron los valores de la columna `primary_type` en busca de inconsistencias por capitalización o espacios.  
 **Resultado**: No se encontraron inconsistencias. Todos los valores estaban correctamente formateados.
 -- Esto lista variaciones que podrían ser la misma categoría
