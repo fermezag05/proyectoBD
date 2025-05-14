@@ -679,7 +679,7 @@ FROM crimenes_contados
 WHERE ranking <= 3
 ORDER BY district, total_crimenes DESC;
 ```
-*Interpretación:* Battery es el crimen  más común en la ciudad de Chicago.
+*Interpretación:* Entre los crimenes mas comuntes por distrito está Battery, Criminal Damage, Theft y Deceptive Practice.
 
 ![output](https://github.com/user-attachments/assets/73aa48d0-0daa-4caf-b8d4-14ad81b80f26)
 
