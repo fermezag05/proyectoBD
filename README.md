@@ -559,44 +559,33 @@ JOIN locations_descriptions ld ON ld.location_description = sc.location_descript
 JOIN coordinates c ON c.latitude = sc.latitude AND c.longitude = sc.longitude;  
 
 -- 6) crimes: finalmente, inserta cada crimen referenciando crime_codes y locations
-INSERT INTO crimes (
-    case_number,
-    crime_date,
-    iucr,
-    location_id,
-    arrest,
-    domestic,
-    beat,
-    district,
-    ward,
-    community_area,
-    "year",
-    updated_on
-)
+INSERT INTO
+	crimes (case_number, crime_date, iucr, location_id, arrest, domestic, beat, district, ward, community_area, "year", updated_on)
 SELECT
-    s.case_number,
-    s.crime_date,
-    s.iucr,
-    l.id           AS location_id,
-    s.arrest,
-    s.domestic,
-    s.beat,
-    s.district,
-    s.ward,
-    s.community_area,
-    s."year",
-    TO_TIMESTAMP(s.updated_on, 'MM/DD/YYYY HH12:MI:SS AM')
-FROM staging s
-JOIN blocks                  b ON s.block = b.block
-JOIN locations_descriptions  d ON s.location_description = d.location_description
-JOIN coordinates             c ON s.x_coordinate = c.x_coordinate
-                              AND s.y_coordinate = c.y_coordinate
-                              AND s.latitude     = c.latitude
-                              AND s.longitude    = c.longitude
-                              AND s.location     = c.location
-JOIN locations               l ON l.block_id       = b.id
-                              AND l.description_id = d.id
-                              AND l.coordinate_id  = c.id;
+	s.case_number,
+	s.crime_date,
+	s.iucr,
+	l.id AS location_id,
+	s.arrest,
+	s.domestic,
+	s.beat,
+	s.district,
+	s.ward,
+	s.community_area,
+	s."year",
+	TO_TIMESTAMP(s.updated_on, 'MM/DD/YYYY HH12:MI:SS AM')
+FROM
+	staging s
+	JOIN blocks b ON s.block = b.block
+	JOIN locations_descriptions d ON s.location_description = d.location_description
+	JOIN coordinates c ON s.x_coordinate = c.x_coordinate
+	AND s.y_coordinate = c.y_coordinate
+	AND s.latitude = c.latitude
+	AND s.longitude = c.longitude
+	AND s.location = c.location
+	JOIN locations l ON l.block_id = b.id
+	AND l.description_id = d.id
+	AND l.coordinate_id = c.id;
 ```
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ## E) Análisis de Datos a través de consultas SQL y creación de atributos analíticos
