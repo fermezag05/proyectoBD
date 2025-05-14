@@ -386,10 +386,6 @@ Reducir redundancia, evitar anomalías de actualización/eliminación, y mejorar
 
 ## Formas Normales Alcanzadas
 
-### 1NF (Primera Forma Normal)
-- Todos los atributos son atómicos.
-- No existen listas ni estructuras anidadas.
-
 ### 2NF (Segunda Forma Normal)
 - Eliminadas dependencias parciales creando tablas independientes para `crime_codes`, `blocks`, `coordinates`, etc.
 
