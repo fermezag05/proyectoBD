@@ -326,7 +326,9 @@ Este proyecto implementa un modelo relacional normalizado a partir de una tabla 
 El comando para el script de la parte D es el siguiente:
 \i  …\entregaNormaliD.sql
 
----
+---Diagrama Entidad-Relación
+![PHOTO-2025-05-11-19-38-05](https://github.com/user-attachments/assets/19510a9f-7af7-47bd-b19e-3d2a90682f0f)
+
 
 ## Dependencias Funcionales
 
