@@ -697,6 +697,7 @@ GROUP BY c.community_area
 ORDER BY pct_domesticos DESC
 LIMIT 10;
 ```
+![image](https://github.com/user-attachments/assets/544c066c-7b8c-4c37-ad97-9cd8d56dcbaa)
 
 
 *Interpretación:* Comunidades con mayor proporción de delitos domésticos, clave para focalizar programas sociales y de prevención.
