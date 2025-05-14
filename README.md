@@ -372,7 +372,7 @@ id → { case_number, crime_date, iucr, location_id,
 ## Dependencias Multivaluadas
 
 No existen dependencias multivaluadas en el esquema final. Cada tabla representa una sola entidad o relación, y ha sido descompuesta correctamente hasta alcanzar la **Cuarta Forma Normal (4NF)**, eliminando cualquier repetición independiente de datos.
-
+No hay ningún caso en el que digamos, un crímen tiene multiples tipos.
 ---
 
 ## Proceso de Normalización
