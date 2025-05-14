@@ -742,5 +742,5 @@ WHERE coordinates.latitude IS NOT NULL AND coordinates.longitude IS NOT NULL;
 - **Acumulado mensual:** Permite medir la carga histórica.
 - **Crimenes por distrito:** Permite medir informar que distritos tienen la mayor cantidad de crimenes(Encontramos el distrito 6 es el que tiene mayor numero de delitos y el 20 la menor cantidad).
 
-Estos análisis proporcionan una visión integral para la toma de decisiones en seguridad pública y la optimización de recursos.  
+Estos análisis proporcionan una visión amplia para la toma de decisiones en seguridad pública y la optimización de recursos.  
 
