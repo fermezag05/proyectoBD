@@ -696,11 +696,7 @@ GROUP BY c.community_area
 ORDER BY pct_domesticos DESC
 LIMIT 10;
 ```
-**Resultado (ejemplo):**  
-| community_area | domesticos | no_domesticos | pct_domesticos |
-|----------------|------------|---------------|----------------|
-| 25             | 2345       | 765           | 75.40          |
-| …              | …          | …             | …              |
+
 
 *Interpretación:* Comunidades con mayor proporción de delitos domésticos, clave para focalizar programas sociales y de prevención.
 
@@ -716,12 +712,7 @@ FROM crimes
 GROUP BY mes
 ORDER BY mes;
 ```
-**Resultado (ejemplo):**  
-| mes        | mensual | acumulado |
-|------------|---------|-----------|
-| 2010-01-01 |  5000   | 5000      |
-| 2010-02-01 |  5200   | 10200     |
-| …          | …       | …         |
+
 
 *Interpretación:* La curva acumulada muestra la progresión total de delitos; útil para proyecciones y comparaciones históricas.
 
