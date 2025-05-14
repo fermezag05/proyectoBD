@@ -157,7 +157,7 @@ SELECT
     s.ward,
     s.community_area,
     s."year",
-    TO_TIMESTAMP(s.updated_on, 'MM/DD/YYYY HH12:MI:SS AM') -- Adjust format as needed
+    TO_TIMESTAMP(s.updated_on, 'MM/DD/YYYY HH12:MI:SS AM')
 FROM staging s
 JOIN blocks                  b ON s.block = b.block
 JOIN locations_descriptions  d ON s.location_description = d.location_description
