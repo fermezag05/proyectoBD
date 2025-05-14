@@ -339,32 +339,32 @@ iucr → primary_type, description, fbi_code
 
 ### `blocks`
 ```
-id → block  
-block → id
+id → { block }
 ```
 
 ### `locations_descriptions`
 ```
-id → location_description  
-location_description → id
+id → { location_description }
 ```
 
 ### `coordinates`
 ```
-id → x_coordinate, y_coordinate, latitude, longitude, location  
-(x_coordinate, y_coordinate, latitude, longitude, location) → id
+id → { x_coordinate, y_coordinate, latitude, longitude, location }
 ```
 
 ### `locations`
 ```
-id → block_id, description_id, coordinate_id  
-(block_id, description_id, coordinate_id) → id
+id → { block_id, description_id, coordinate_id }
 ```
 
 ### `crimes`
 ```
-id → case_number, crime_date, iucr, location_id, arrest, domestic, beat, district, ward, community_area, year, updated_on  
-(case_number, crime_date, iucr, location_id) → id
+id → { case_number, crime_date, iucr, location_id,
+       arrest, domestic, beat, district, ward,
+       community_area, year, updated_on }
+(case_number, crime_date, iucr, location_id)
+  → { id, arrest, domestic, beat, district, ward,
+      community_area, year, updated_on }
 ```
 
 ---
