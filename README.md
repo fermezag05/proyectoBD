@@ -663,22 +663,35 @@ ORDER BY tasa_arresto_pct DESC;
 
 ---
 
-### 4. Evolución anual de crímenes
+### 4. Tipos de crimenes mas comunes por distrito
 ```sql
-SELECT
-  c."year",
-  COUNT(*) AS total_crimes,
-  ROUND(
-    100.0 * COUNT(*) / SUM(COUNT(*)) OVER (),
-    2
-  ) AS pct_sobre_total
-FROM crimes c
-GROUP BY c."year"
-ORDER BY c."year";
-```
-*Interpretación:* Tendencias a lo largo del tiempo; permite evaluar el impacto de políticas públicas o eventos sociales.
+WITH crimenes_contados AS (
+    SELECT
+        c.district,
+        cc.primary_type,
+        COUNT(*) AS total_crimenes,
+        ROW_NUMBER() OVER (
+            PARTITION BY c.district
+            ORDER BY COUNT(*) DESC
+        ) AS ranking
+    FROM crimes c
+    JOIN crime_codes cc ON c.iucr = cc.iucr
+    WHERE c.district IS NOT NULL
+    GROUP BY c.district, cc.primary_type
+)
 
-*(Gráfico de líneas: total_crimes vs year)*
+SELECT
+    district,
+    primary_type,
+    total_crimenes
+FROM crimenes_contados
+WHERE ranking <= 3
+ORDER BY district, total_crimenes DESC;
+```
+*Interpretación:* Battery es el crimen  más común en la ciudad de Chicago.
+
+![output](https://github.com/user-attachments/assets/73aa48d0-0daa-4caf-b8d4-14ad81b80f26)
+
 
 ---
 
