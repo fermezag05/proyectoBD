@@ -720,16 +720,18 @@ LIMIT 10;
 ### 6. Tendencia acumulada de crímenes
 ```sql
 SELECT
-  DATE_TRUNC('month', crime_date) AS mes,
+  TO_CHAR(DATE_TRUNC('month', crime_date), 'TMMonth') AS mes,
   COUNT(*) AS mensual,
   SUM(COUNT(*)) OVER (ORDER BY DATE_TRUNC('month', crime_date)) AS acumulado
 FROM crimes
-GROUP BY mes
-ORDER BY mes;
+GROUP BY DATE_TRUNC('month', crime_date)
+ORDER BY DATE_TRUNC('month', crime_date);
 ```
 
 
 *Interpretación:* La curva acumulada muestra la progresión total de delitos; útil para proyecciones y comparaciones históricas.
+![output](https://github.com/user-attachments/assets/7eb55ce7-f152-49ca-8b04-d7375b4c4118)
+
 
 ---
 ### 7. Crimenes por distrito 
