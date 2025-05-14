@@ -180,6 +180,11 @@ WHERE id IN (
 
 Se inspeccionaron los valores de la columna `primary_type` en busca de inconsistencias por capitalización o espacios.  
 **Resultado**: No se encontraron inconsistencias. Todos los valores estaban correctamente formateados.
+-- Esto lista variaciones que podrían ser la misma categoría
+SELECT DISTINCT primary_type
+FROM staging
+ORDER BY primary_type;
+-- (Revisión visual para identificar ' THEFT' vs 'THEFT' o 'Theft' vs 'THEFT')
 
 **Justificación**: Evita que valores como “THEFT”, “theft” y “ THEFT” se traten como diferentes, lo cual fragmentaría el análisis.
 
