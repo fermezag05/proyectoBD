@@ -113,6 +113,7 @@ Una vez realizado este proceso, los datos estarán correctamente cargados en la 
 
 Por último, realizamos una modificación a la tabla para convertir crime_date a un timestamp. Dicha modificación se hace ejecutando el siguiente código:
 
+```sql
 ALTER TABLE staging ADD COLUMN crime_timestamp TIMESTAMP;
 
 UPDATE staging
@@ -121,6 +122,7 @@ SET crime_timestamp = TO_TIMESTAMP(crime_date, 'MM/DD/YYYY HH12:MI:SS AM');
 ALTER TABLE staging DROP COLUMN crime_date;
 
 ALTER TABLE staging RENAME COLUMN crime_timestamp TO crime_date;
+```
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # C: Limpieza de Datos
