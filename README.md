@@ -227,7 +227,7 @@ SELECT
   COUNT(CASE WHEN domestic IS NULL THEN 1 END) AS null_domestic_count,
   COUNT(CASE WHEN latitude IS NULL THEN 1 END) AS null_latitude_count,
   COUNT(CASE WHEN longitude IS NULL THEN 1 END) AS null_longitude_count,
-  COUNT(CASE WHEN location IS NULL THEN 1 END) AS null_location_count --from staging
+  COUNT(CASE WHEN location IS NULL THEN 1 END) AS null_location_count 
 
 FROM staging;
 ```
