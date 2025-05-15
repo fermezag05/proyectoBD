@@ -484,6 +484,8 @@ CREATE TABLE crimes(
 
 ## Proceso de Población de Datos
 
+NOTA: Algunos querys de poblacion pueden tomar tiempo en ejecutarse. Todos funcionan.
+
 ```sql
 --Población
 
